@@ -8,6 +8,8 @@ import com.cc.workflow.data.MbrDAO;
 import com.cc.workflow.data.MbrInMem;
 import com.cc.workflow.data.ReDAO;
 import com.cc.workflow.data.ReInMem;
+import com.cc.workflow.data.TraceDAO;
+import com.cc.workflow.data.TraceInMem;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -61,5 +63,14 @@ public class WorkflowConfiguration {
         }
         // TODO: Create SQL implementation
         return new ReInMem();
+    }
+
+    @Bean
+    public TraceDAO getTraceDAO() {
+        if (dbInMem) {
+            return new TraceInMem();
+        }
+        // TODO: Create SQL implementation
+        return new TraceInMem();
     }
 }

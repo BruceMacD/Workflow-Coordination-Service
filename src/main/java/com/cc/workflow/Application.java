@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
-@ServletComponentScan(value = "com/cc/workflow/security")
+@ServletComponentScan(value = {"com/cc/workflow/security", "com/cc/workflow/trace"})
 public class Application {
 
     public static void main(final String[] args) {

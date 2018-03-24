@@ -22,10 +22,7 @@ public class EmpService {
 
     public boolean authenticate(String id, String password) {
         User user = getUser(id);
-        if (null != user) {
-            return pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
-        }
-        return false;
+        return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
     }
 
     public User createUser(User user) {
