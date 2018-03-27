@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 
-class LoginPage extends React.Component {
+class MBRLoginPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -77,5 +77,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedLoginPage = connect(mapStateToProps)(LoginPage);
-export { connectedLoginPage as LoginPage }; 
+const connectedMBRLoginPage = connect(mapStateToProps)(MBRLoginPage);
+export { connectedMBRLoginPage as MBRLoginPage }; 

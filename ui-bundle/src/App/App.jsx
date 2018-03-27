@@ -6,7 +6,7 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { MBRHomePage } from '../HomePage';
-import { LoginPage } from '../LoginPage';
+import { MBRLoginPage } from '../LoginPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -30,7 +30,7 @@ class App extends React.Component {
                     <Router history={history}>
                         <div>
                             <PrivateRoute exact path="/mbr" component={MBRHomePage} />
-                            <Route path="/mbr/login" component={LoginPage} />
+                            <Route path="/mbr/login" component={MBRLoginPage} />
                         </div>
                     </Router>
                 </div>
