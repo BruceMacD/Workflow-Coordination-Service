@@ -1,10 +1,7 @@
-# ui-bundle
+# Workflow UI
 
-Requirements:
-npm
+Required: npm and NodeJS
 
-Installation:
-npm install
+Install: npm install
 
-Running:
-npm start
+Run: npm start

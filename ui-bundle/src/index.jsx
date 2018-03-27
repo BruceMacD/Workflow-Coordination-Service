@@ -1,14 +1,17 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-import { Router, browserHistory } from 'react-router';
-import routes from './routes';
+import { store } from './_helpers';
+import { App } from './App';
 
-require('./stylesheets/base.scss');
-require('./stylesheets/home.scss');
-require('./stylesheets/mbr.scss');
+// setup fake backend
+import { configureFakeBackend } from './_helpers';
+configureFakeBackend();
 
-ReactDom.render(
-  <Router history={browserHistory} routes={routes} />,
-  document.querySelector('#app')
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
 );

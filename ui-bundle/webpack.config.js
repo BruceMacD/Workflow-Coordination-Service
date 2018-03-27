@@ -1,38 +1,33 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-var webpack = require('webpack');
+var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  context: __dirname,
-  entry: "./src/index.jsx",
-  output: {
-    path: __dirname + '/public',
-    filename: "bundle.js",
-    publicPath: '/public/'
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.js|.jsx?$/,
-        exclude: /(node_modules)/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015']
-        }
-      },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css-loader!sass-loader')
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-  plugins: [
-    new ExtractTextPlugin({ filename: 'app.css', allChunks: true })
-  ],
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './'
-  }
-};
+    entry: './src/index.jsx',
+    output: {
+        path: path.resolve('dist'),
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['react', 'es2015', 'stage-3']
+                }
+            }
+        ]
+    },
+    plugins: [new HtmlWebpackPlugin({
+        template: './src/index.html',
+        filename: 'index.html',
+        inject: 'body'
+    })],
+    devServer: {
+        historyApiFallback: true
+    }
+}
