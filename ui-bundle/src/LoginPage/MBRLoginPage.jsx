@@ -12,7 +12,7 @@ class MBRLoginPage extends React.Component {
         this.props.dispatch(userActions.logout());
 
         this.state = {
-            username: '',
+            id: '',
             password: '',
             submitted: false
         };
@@ -30,24 +30,24 @@ class MBRLoginPage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { username, password } = this.state;
+        const { id, password } = this.state;
         const { dispatch } = this.props;
-        if (username && password) {
-            dispatch(userActions.login(username, password));
+        if (id && password) {
+            dispatch(userActions.login(id, password));
         }
     }
 
     render() {
         const { loggingIn } = this.props;
-        const { username, password, submitted } = this.state;
+        const { id, password, submitted } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                        <label htmlFor="username">User ID</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
-                        {submitted && !username &&
+                    <div className={'form-group' + (submitted && !id ? ' has-error' : '')}>
+                        <label htmlFor="id">User ID</label>
+                        <input type="text" className="form-control" name="id" value={id} onChange={this.handleChange} />
+                        {submitted && !id &&
                             <div className="help-block">User ID is required</div>
                         }
                     </div>

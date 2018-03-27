@@ -1,23 +1,24 @@
 import { authHeader } from '../_helpers';
+import { serverConstants } from '../_constants';
 
 export const userService = {
     login,
     logout
 };
 
-function login(username, password) {
+function login(id, password) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ id, password })
     };
 
-    return fetch('/users/authenticate', requestOptions)
+    return fetch(serverConstants.MBR_SERVER_LOGIN_ENDPOINT, requestOptions)
         .then(response => {
             if (!response.ok) { 
                 return Promise.reject(response.statusText);
             }
-
+            //Console.log(response);
             return response.json();
         })
         .then(user => {
