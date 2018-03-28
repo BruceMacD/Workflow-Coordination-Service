@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
-import { PrivateRoute } from '../_components';
+import { PrivateRouteMBR } from '../_components';
 import { MBRHomePage } from '../HomePage';
 import { MBRLoginPage } from '../LoginPage';
 
@@ -29,7 +29,7 @@ class App extends React.Component {
                     }
                     <Router history={history}>
                         <div>
-                            <PrivateRoute exact path="/mbr" component={MBRHomePage} />
+                            <PrivateRouteMBR exact path="/mbr" component={MBRHomePage} />
                             <Route path="/mbr/login" component={MBRLoginPage} />
                         </div>
                     </Router>

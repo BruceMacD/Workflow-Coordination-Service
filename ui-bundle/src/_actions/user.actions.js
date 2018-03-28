@@ -8,15 +8,16 @@ export const userActions = {
     logout
 };
 
-function login(id, password) {
+function login(portal, id, password) {
     return dispatch => {
         dispatch(request({ id }));
 
-        userService.login(id, password)
+        userService.login(portal, id, password)
             .then(
                 user => { 
                     dispatch(success(user));
-                    history.push('/mbr');
+                    // redirect based on portal login used
+                    history.push('/' + portal);
                 },
                 error => {
                     dispatch(failure(error));
@@ -30,7 +31,7 @@ function login(id, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
-function logout() {
-    userService.logout();
+function logout(portal) {
+    userService.logout(portal);
     return { type: userConstants.LOGOUT };
 }

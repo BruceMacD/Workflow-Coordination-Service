@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { portalConstants } from '../_constants';
 import { userActions } from '../_actions';
 
 class MBRLoginPage extends React.Component {
+
     constructor(props) {
         super(props);
 
         // reset login status
-        this.props.dispatch(userActions.logout());
+        this.props.dispatch(userActions.logout(portalConstants.MBR_PORTAL));
 
         this.state = {
             id: '',
@@ -33,7 +35,7 @@ class MBRLoginPage extends React.Component {
         const { id, password } = this.state;
         const { dispatch } = this.props;
         if (id && password) {
-            dispatch(userActions.login(id, password));
+            dispatch(userActions.login(portalConstants.MBR_PORTAL, id, password));
         }
     }
 
