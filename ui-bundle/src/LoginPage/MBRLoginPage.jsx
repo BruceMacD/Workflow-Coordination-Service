@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Alert, Modal, Button } from 'react-bootstrap';
 
 import { portalConstants } from '../_constants';
-import { userActions } from '../_actions';
+import { userActions, mbrActions } from '../_actions';
 
 class MBRLoginPage extends React.Component {
 
@@ -14,13 +15,29 @@ class MBRLoginPage extends React.Component {
         this.props.dispatch(userActions.logout(portalConstants.MBR_PORTAL));
 
         this.state = {
+            show: false,
             id: '',
             password: '',
-            submitted: false
+            submitted: false,
+            creating: false,
+            created: false,
+            username: '',
+            newPassword: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleCreateUser = this.handleCreateUser.bind(this);
+    }
+
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow() {
+        this.setState({ show: true });
     }
 
     handleChange(e) {
@@ -39,9 +56,23 @@ class MBRLoginPage extends React.Component {
         }
     }
 
+    handleCreateUser(e) {
+        e.preventDefault();
+
+        this.setState({ creating: true });
+        const { username, newPassword } = this.state;
+        const { dispatch } = this.props;
+        if (username && newPassword) {
+            dispatch(mbrActions.createUser(username, newPassword));
+            this.setState({ created: true });
+        }
+    }
+
     render() {
+        const visibilityState = this.state.created ? "visible" : "hidden";
         const { loggingIn } = this.props;
-        const { id, password, submitted } = this.state;
+        const { newId } = this.props;
+        const { id, password, submitted, show, creating, created, username, newPassword } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>
@@ -67,6 +98,45 @@ class MBRLoginPage extends React.Component {
                         }
                     </div>
                 </form>
+
+                {/* this is the create user modal */}
+                <div>
+                    <button className="btn btn-primary" onClick={this.handleShow}>
+                        Create User
+                        </button>
+                    <Modal show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Create New User</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form name="form" onSubmit={this.handleCreateUser}>
+                                <div className={'form-group' + (creating && !username ? ' has-error' : '')}>
+                                    <label htmlFor="username">Username</label>
+                                    <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
+                                    {creating && !username &&
+                                        <div className="help-block">Username is required</div>
+                                    }
+                                </div>
+                                <div className={'form-group' + (creating && !newPassword ? ' has-error' : '')}>
+                                    <label htmlFor="newPassword">Password</label>
+                                    <input type="password" className="form-control" name="newPassword" value={newPassword} onChange={this.handleChange} />
+                                    {creating && !newPassword &&
+                                        <div className="help-block">Password is required</div>
+                                    }
+                                </div>
+                                <div className="form-group">
+                                    <button className="btn btn-primary">Create User</button>
+                                </div>
+                            </form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Alert style={{visibility: visibilityState}} bsStyle="success">
+                                <strong>Account created:</strong> Your User ID is: {newId}
+                            </Alert>
+                            <Button onClick={this.handleClose}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
             </div>
         );
     }
@@ -74,8 +144,10 @@ class MBRLoginPage extends React.Component {
 
 function mapStateToProps(state) {
     const { loggingIn } = state.authentication;
+    const newId = state.users.id;
     return {
-        loggingIn
+        loggingIn,
+        newId
     };
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab } from 'react-bootstrap';
 
 import { userActions, mbrActions } from '../_actions';
 

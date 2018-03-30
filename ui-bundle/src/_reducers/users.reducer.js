@@ -1,19 +1,17 @@
 import { userConstants } from '../_constants';
 
-export function users(state = {}, action) {
+const initialState = { id: '', error: '' };
+
+export function users(state = initialState, action) {
   switch (action.type) {
-    // case userConstants.GETALL_REQUEST:
-    //   return {
-    //     loading: true
-    //   };
-    // case userConstants.GETALL_SUCCESS:
-    //   return {
-    //     items: action.users
-    //   };
-    // case userConstants.GETALL_FAILURE:
-    //   return { 
-    //     error: action.error
-    //   };
+    case userConstants.CREATE_USER_SUCCESS:
+      return {
+        id: action.id.id
+      };
+    case userConstants.CREATE_USER_FAILURE:
+      return { 
+        error: action.error
+      };
     default:
       return state
   }

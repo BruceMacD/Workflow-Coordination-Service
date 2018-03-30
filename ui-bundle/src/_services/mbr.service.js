@@ -2,7 +2,8 @@ import { authHeader } from '../_helpers';
 import { jwtConstants, serverConstants } from '../_constants';
 
 export const mbrService = {
-    create
+    create,
+    createUser
 };
 
 function create(name, mortgageValue, houseId) {
@@ -18,16 +19,27 @@ function create(name, mortgageValue, houseId) {
         if (!response.ok) { 
             return Promise.reject(response.statusText);
         }
-        //TODO: Remove this, its for testing
-        console.log(response.json());
         return response.json();
-    })
+    }).then(responseBody => {
+        return responseBody;
+    });
 }
 
-function handleResponse(response) {
-    if (!response.ok) { 
-        return Promise.reject(response.statusText);
-    }
+function createUser(id, password) {
 
-    return response.json();
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, password })
+    };
+
+    return fetch(serverConstants.MBR_SERVER_CREATE_USER_ENDPOINT, requestOptions)
+    .then(response => {
+        if (!response.ok) { 
+            return Promise.reject(response.statusText);
+        }
+        return response.json();
+    }).then(responseBody => {
+        return responseBody;
+    });
 }
