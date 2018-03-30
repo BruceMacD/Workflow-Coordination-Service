@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab, Alert } from 'react-bootstrap';
 
 import { userActions, mbrActions } from '../_actions';
 
 class MBRHomePage extends React.Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -16,11 +16,14 @@ class MBRHomePage extends React.Component {
             name: '',
             mortgageValue: '',
             houseId: '',
-            submittedForm: false
+            submittedForm: false,
+            requestId: '',
+            submittedRequest: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
+        this.handleGetStatus = this.handleGetStatus.bind(this);
     }
 
     handleChange(e) {
@@ -39,9 +42,23 @@ class MBRHomePage extends React.Component {
         }
     }
 
+    handleGetStatus(e) {
+        e.preventDefault();
+
+        this.setState({ submittedRequest: true });
+        const { requestId } = this.state;
+        const { dispatch } = this.props;
+        if (requestId) {
+            //TODO
+            //dispatch(mbrActions.status(submittedRequest));
+        }
+    }
+
     render() {
+        const visibilityState = this.state.submittedRequest ? "visible" : "hidden";
         const { user } = this.props;
-        const { name, mortgageValue, houseId, submittedForm } = this.state;
+        const { status } = this.props;
+        const { name, mortgageValue, houseId, submittedForm, requestId, submittedRequest } = this.state;
         return (
             <div>
                 <h1>MBR</h1>
@@ -78,7 +95,23 @@ class MBRHomePage extends React.Component {
                         </form>
                     </Tab>
                     <Tab eventKey={2} title="Request Status">
-                        TODO: Request Status
+                        <form name="form" onSubmit={this.handleGetStatus}>
+                            <div className={'form-group' + (submittedRequest && !requestId ? ' has-error' : '')}>
+                                <label htmlFor="requestId">Request ID</label>
+                                <input type="text" className="form-control" name="requestId" value={requestId} onChange={this.handleChange} />
+                                {submittedRequest && !requestId &&
+                                    <div className="help-block">Request ID is required</div>
+                                }
+                            </div>
+                            <div className="form-group">
+                                <button className="btn btn-primary">Get Status</button>
+                            </div>
+                        </form>
+                        <Alert style={{visibility: visibilityState}} bsStyle="success">
+                            <strong>Request status:</strong>
+                            <p>Employer: { status.emp }</p>
+                            <p>Insurance: { status.ins }</p>
+                        </Alert>
                     </Tab>
                 </Tabs>
             </div>
@@ -89,8 +122,10 @@ class MBRHomePage extends React.Component {
 function mapStateToProps(state) {
     const { authentication } = state;
     const { user } = authentication;
+    const status = state.mbr.status;
     return {
-        user
+        user,
+        status
     };
 }
 
