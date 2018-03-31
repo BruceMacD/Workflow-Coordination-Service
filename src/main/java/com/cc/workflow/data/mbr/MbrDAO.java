@@ -5,4 +5,5 @@ public interface MbrDAO {
     MbrUser getUser(String id);
     void deleteUser(String id);
     MbrUser updateUser(MbrUser user);
+    MbrUser getUserByMortgageId(String mortgageId);
 }

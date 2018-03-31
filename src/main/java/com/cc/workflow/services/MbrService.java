@@ -10,6 +10,7 @@ import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
 
+import com.cc.workflow.data.mun.MUNServices;
 import com.cc.workflow.exceptions.AlreadyApplied;
 import com.cc.workflow.exceptions.InvalidMortgageApplication;
 import com.cc.workflow.exceptions.UserNotFound;
@@ -65,6 +66,13 @@ public class MbrService {
     public MbrUser updateEmpInfo(String id, EmpUser empinfo) {
         MbrUser user = getUser(id);
         user.setEmpInfo(empinfo);
+        mbrDAO.updateUser(user);
+        return user;
+    }
+
+    public MbrUser updateMunInfo(MUNServices services) {
+        MbrUser user = mbrDAO.getUserByMortgageId(services.mortgageId);
+        user.setMunInfo(services);
         mbrDAO.updateUser(user);
         return user;
     }

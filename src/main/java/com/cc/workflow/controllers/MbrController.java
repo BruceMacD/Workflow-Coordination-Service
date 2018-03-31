@@ -4,6 +4,7 @@ import com.cc.workflow.data.User;
 import com.cc.workflow.data.emp.EmpUser;
 import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
+import com.cc.workflow.data.mun.MUNServices;
 import com.cc.workflow.services.MbrService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,14 @@ public class MbrController {
     @ResponseStatus(HttpStatus.OK)
     public MbrUser updateEmpInfo(@PathVariable String id, @RequestBody EmpUser empInfo) {
         return mbrService.updateEmpInfo(id, empInfo);
+    }
+
+    @RequestMapping(
+            value = "/munInfo",
+            method = RequestMethod.POST
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public MbrUser updateMunInfo(@RequestBody MUNServices services) {
+        return mbrService.updateMunInfo(services);
     }
 }

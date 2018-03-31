@@ -1,6 +1,5 @@
 package com.cc.workflow.data.mbr;
 
-import com.cc.workflow.data.emp.EmpUser;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;
@@ -32,5 +31,14 @@ public class MbrInMem implements MbrDAO {
     public MbrUser updateUser(MbrUser user) {
         userDB.put(user.getId(), user);
         return user;
+    }
+
+    @Override
+    public MbrUser getUserByMortgageId(String mortgageId) {
+        return userDB.values()
+                .stream()
+                .filter(x -> x.getApplication().mortgageId.equals(mortgageId))
+                .findFirst()
+                .orElseThrow(() -> new UserNotFound());
     }
 }
