@@ -1,10 +1,11 @@
-package com.cc.workflow.data;
+package com.cc.workflow.data.ins;
 
+import com.cc.workflow.data.User;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;
 
-public class MbrInMem implements MbrDAO {
+public class InsInMem implements InsDAO {
     private static HashMap<String ,User> db = new HashMap<>();
 
     @Override

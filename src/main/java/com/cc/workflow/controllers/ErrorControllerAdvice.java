@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cc.workflow.exceptions.ApplicationNotFound;
 import com.cc.workflow.exceptions.AuthError;
+import com.cc.workflow.exceptions.InvalidMortgageApplication;
 import com.cc.workflow.exceptions.UserNotFound;
 
 @ControllerAdvice
@@ -26,6 +28,26 @@ public class ErrorControllerAdvice {
                 HttpStatus.NOT_FOUND.value(),
                 e.getErrorMessage()
 
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = InvalidMortgageApplication.class)
+    public ResponseEntity<APIErrorResponse> invalidApplicationError(InvalidMortgageApplication e) {
+        APIErrorResponse err = new APIErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getErrorMessage()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = ApplicationNotFound.class)
+    public ResponseEntity<APIErrorResponse> applicationNotFoundError(ApplicationNotFound e) {
+        APIErrorResponse err = new APIErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                e.getErrorMessage()
         );
 
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);

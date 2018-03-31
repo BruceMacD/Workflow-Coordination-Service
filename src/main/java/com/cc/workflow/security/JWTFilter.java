@@ -1,6 +1,5 @@
 package com.cc.workflow.security;
 
-import com.cc.workflow.security.JWTUser;
 import com.cc.workflow.services.AuthService;
 import com.cc.workflow.trace.LoggingTraceRepository;
 

@@ -3,11 +3,16 @@ package com.cc.workflow.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cc.workflow.data.MbrDAO;
+import com.cc.workflow.data.mbr.MortgageApplication;
+import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
+
+import com.cc.workflow.exceptions.InvalidMortgageApplication;
+import com.cc.workflow.exceptions.UserNotFound;
 import com.cc.workflow.security.PasswordHashUtility;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -40,5 +45,28 @@ public class MbrService {
 
     public void deleteUser(String id) {
         mbrDAO.deleteUser(id);
+    }
+
+    public MortgageApplication apply(String id, MortgageApplication application) {
+        verifyApplication(id, application);
+        application.mortgageId = UUID.randomUUID().toString();
+        mbrDAO.saveApplication(id, application);
+        return application;
+    }
+
+    public MortgageApplication getApplication(String id) {
+        return mbrDAO.getApplication(id);
+    }
+
+    private void verifyApplication(String id,MortgageApplication application) {
+        try {
+            getUser(id);
+            UUID.fromString(application.mortgageInsuranceId);
+            if (application.mortgageVal < 0 || !Objects.nonNull(application.name) || application.name.length() == 0) {
+                throw new InvalidMortgageApplication();
+            }
+        } catch (IllegalArgumentException | UserNotFound e) {
+            throw new InvalidMortgageApplication();
+        }
     }
 }

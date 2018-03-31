@@ -1,6 +1,6 @@
 package com.cc.workflow.trace;
 
-import com.cc.workflow.data.TraceDAO;
+import com.cc.workflow.data.trace.TraceDAO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
-package com.cc.workflow.data;
+package com.cc.workflow.data.emp;
 
+import com.cc.workflow.data.User;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;

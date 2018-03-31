@@ -1,6 +1,8 @@
-package com.cc.workflow.data;
+package com.cc.workflow.data.re;
 
-public interface EmpDAO {
+import com.cc.workflow.data.User;
+
+public interface ReDAO {
     User createUser(User user);
     User getUser(String id);
     void deleteUser(String id);

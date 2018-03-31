@@ -1,15 +1,15 @@
 package com.cc.workflow;
 
-import com.cc.workflow.data.EmpDAO;
-import com.cc.workflow.data.EmpInMem;
-import com.cc.workflow.data.InsDAO;
-import com.cc.workflow.data.InsInMem;
-import com.cc.workflow.data.MbrDAO;
-import com.cc.workflow.data.MbrInMem;
-import com.cc.workflow.data.ReDAO;
-import com.cc.workflow.data.ReInMem;
-import com.cc.workflow.data.TraceDAO;
-import com.cc.workflow.data.TraceInMem;
+import com.cc.workflow.data.emp.EmpDAO;
+import com.cc.workflow.data.emp.EmpInMem;
+import com.cc.workflow.data.ins.InsDAO;
+import com.cc.workflow.data.ins.InsInMem;
+import com.cc.workflow.data.mbr.MbrDAO;
+import com.cc.workflow.data.mbr.MbrInMem;
+import com.cc.workflow.data.re.ReDAO;
+import com.cc.workflow.data.re.ReInMem;
+import com.cc.workflow.data.trace.TraceDAO;
+import com.cc.workflow.data.trace.TraceInMem;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

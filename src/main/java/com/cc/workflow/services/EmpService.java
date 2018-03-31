@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
 
-import com.cc.workflow.data.EmpDAO;
+import com.cc.workflow.data.emp.EmpDAO;
 import com.cc.workflow.security.PasswordHashUtility;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.cc.workflow.data;
+package com.cc.workflow.data.trace;
 
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 

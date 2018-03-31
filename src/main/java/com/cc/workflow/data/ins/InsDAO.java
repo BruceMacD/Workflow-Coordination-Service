@@ -1,4 +1,6 @@
-package com.cc.workflow.data;
+package com.cc.workflow.data.ins;
+
+import com.cc.workflow.data.User;
 
 public interface InsDAO {
     User createUser(User user);

@@ -3,7 +3,7 @@ package com.cc.workflow.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cc.workflow.data.ReDAO;
+import com.cc.workflow.data.re.ReDAO;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
 import com.cc.workflow.security.PasswordHashUtility;
