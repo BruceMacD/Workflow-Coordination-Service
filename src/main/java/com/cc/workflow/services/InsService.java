@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.workflow.data.ins.InsDAO;
-import com.cc.workflow.data.User;
-import javafx.util.Pair;
-import com.cc.workflow.security.PasswordHashUtility;
 
-import java.util.UUID;
+import com.cc.workflow.data.ins.InsuranceQuote;
+import com.cc.workflow.data.mun.MUNServices;
+import com.cc.workflow.data.re.Appraisal;
+
+import java.util.Random;
 
 @Service
 public class InsService {
@@ -16,29 +17,45 @@ public class InsService {
     @Autowired
     InsDAO insDAO;
 
-    @Autowired
-    PasswordHashUtility pwUtils;
+    public InsuranceQuote updateMunInfo(MUNServices services) {
+        InsuranceQuote quote = insDAO.getQuote(services.mortgageId);
+        if (quote == null) {
+            quote = new InsuranceQuote();
+            quote.mortgageId = services.mortgageId;
+            quote.deductible = new Random().nextInt(100);
+            quote.insuredValue = new Random().nextInt(100);
+        }
 
-    public boolean authenticate(String id, String password) {
-        User user = getUser(id);
-        return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
+        quote.receivedMun = true;
+
+        insDAO.updateQuote(quote);
+
+        if (quote.receivedRe) {
+            // POST TO MBR
+        }
+
+        return quote;
     }
 
-    public User createUser(User user) {
-        user.setId(UUID.randomUUID().toString());
-        Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
-        user.setPassword(saltAndHashedPassword.getValue());
-        user.setSalt(saltAndHashedPassword.getKey());
+    public InsuranceQuote updateReInfo(Appraisal appraisal) {
+        InsuranceQuote quote = insDAO.getQuote(appraisal.mortgageId);
+        if (quote == null) {
+            quote = new InsuranceQuote();
+            quote.mortgageId = appraisal.mortgageId;
+            quote.deductible = new Random().nextInt(100);
+            quote.insuredValue = new Random().nextInt(100);
+        }
 
-        insDAO.createUser(user);
-        return user;
-    }
+        quote.name = appraisal.name;
+        quote.mortgageInsuranceId = appraisal.mortgageInsuranceId;
+        quote.receivedRe = true;
 
-    public User getUser(String id) {
-        return insDAO.getUser(id);
-    }
+        insDAO.updateQuote(quote);
 
-    public void deleteUser(String id) {
-        insDAO.deleteUser(id);
+        if (quote.receivedMun) {
+            // POST TO MBR
+        }
+
+        return quote;
     }
 }

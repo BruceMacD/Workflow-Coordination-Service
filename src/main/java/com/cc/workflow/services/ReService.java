@@ -45,8 +45,12 @@ public class ReService {
         reDAO.deleteUser(id);
     }
 
-    public REUser appraise(String id, Appraisal appraisal) {
+    public Appraisal appraise(String id, Appraisal appraisal) {
         appraisal.value = (new Random().nextInt(100) + 1) * 10000;
-        return reDAO.updateUser(id, appraisal);
+        // TODO: CALL INS & MUN HERE
+         REUser user = reDAO.getUser(id);
+         user.setAppraisal(appraisal);
+         reDAO.updateUser(user);
+        return appraisal;
     }
 }

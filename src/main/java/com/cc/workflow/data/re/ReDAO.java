@@ -4,5 +4,5 @@ public interface ReDAO {
     REUser createUser(REUser user);
     REUser getUser(String id);
     void deleteUser(String id);
-    REUser updateUser(String id, Appraisal appraisal);
+    REUser updateUser(REUser user);
 }

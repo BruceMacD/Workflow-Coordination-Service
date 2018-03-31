@@ -25,7 +25,7 @@ import com.cc.workflow.services.ReService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = {"/emp/register", "/ins/register", "/mbr/register", "/re/register"})
+@RequestMapping(value = {"/emp/register", "/mbr/register", "/re/register"})
 public class RegistrationController {
 
     @Autowired
@@ -36,9 +36,6 @@ public class RegistrationController {
 
     @Autowired
     private ReService reService;
-
-    @Autowired
-    private InsService insService;
 
     @RequestMapping(
             method = RequestMethod.POST,
@@ -53,8 +50,6 @@ public class RegistrationController {
         switch (url) {
             case "/emp/register":
                 return empService.createUser((EmpUser) user);
-            case "/ins/register":
-                return insService.createUser(user); // TODO: remove?
             case "/mbr/register":
                 return mbrService.createUser((MbrUser) user);
             case "/re/register":

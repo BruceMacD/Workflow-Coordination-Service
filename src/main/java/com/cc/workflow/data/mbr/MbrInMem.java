@@ -39,6 +39,6 @@ public class MbrInMem implements MbrDAO {
                 .stream()
                 .filter(x -> x.getApplication().mortgageId.equals(mortgageId))
                 .findFirst()
-                .orElseThrow(() -> new UserNotFound());
+                .orElseThrow(UserNotFound::new);
     }
 }

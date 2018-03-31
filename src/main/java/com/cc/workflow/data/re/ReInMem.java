@@ -28,10 +28,8 @@ public class ReInMem implements ReDAO {
     }
 
     @Override
-    public REUser updateUser(String id, Appraisal appraisal) {
-        REUser user = getUser(id);
-        user.setAppraisal(appraisal);
-        db.put(id, user);
+    public REUser updateUser(REUser user) {
+        db.put(user.getId(), user);
         return user;
     }
 }
