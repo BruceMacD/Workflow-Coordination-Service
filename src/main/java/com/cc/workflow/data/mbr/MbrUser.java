@@ -9,7 +9,7 @@ public class MbrUser extends User {
     private MortgageApplication application;
     private EmpUser empInfo;
     private MUNServices munInfo;
-    private InsuranceQuote insuranceQuote;
+    private InsuranceQuote insInfo;
 
     public MortgageApplication getApplication() {
         return application;
@@ -35,11 +35,11 @@ public class MbrUser extends User {
         this.munInfo = munInfo;
     }
 
-    public InsuranceQuote getInsuranceQuote() {
-        return insuranceQuote;
+    public InsuranceQuote getInsInfo() {
+        return insInfo;
     }
 
-    public void setInsuranceQuote(InsuranceQuote insuranceQuote) {
-        this.insuranceQuote = insuranceQuote;
+    public void setInsInfo(InsuranceQuote insInfo) {
+        this.insInfo = insInfo;
     }
 }

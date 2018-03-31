@@ -80,7 +80,7 @@ public class MbrService {
 
     public MbrUser updateInsInfo(InsuranceQuote quote) {
         MbrUser user = mbrDAO.getUserByMortgageId(quote.mortgageId);
-        user.setInsuranceQuote(quote);
+        user.setInsInfo(quote);
         mbrDAO.updateUser(user);
         return user;
     }

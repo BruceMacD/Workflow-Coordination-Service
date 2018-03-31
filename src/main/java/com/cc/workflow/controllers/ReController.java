@@ -49,7 +49,7 @@ public class ReController {
             method = RequestMethod.POST
     )
     @ResponseStatus(HttpStatus.OK)
-    public REUser appraise(@PathVariable String id, @RequestBody Appraisal appraisal) {
+    public Appraisal appraise(@PathVariable String id, @RequestBody Appraisal appraisal) {
         return reService.appraise(id, appraisal);
     }
 }

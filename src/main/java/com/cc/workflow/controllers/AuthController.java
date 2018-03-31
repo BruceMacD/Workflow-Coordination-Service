@@ -57,9 +57,6 @@ public class AuthController {
             case "/emp/auth":
                 correctCredentials = empService.authenticate(id, password);
                 break;
-            case "/ins/auth":
-                correctCredentials = insService.authenticate(id, password);
-                break;
             case "/mbr/auth":
                 correctCredentials = mbrService.authenticate(id, password);
                 break;
