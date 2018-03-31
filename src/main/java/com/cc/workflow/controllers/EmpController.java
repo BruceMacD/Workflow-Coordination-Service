@@ -1,6 +1,6 @@
 package com.cc.workflow.controllers;
 
-import com.cc.workflow.data.User;
+import com.cc.workflow.data.emp.EmpUser;
 import com.cc.workflow.services.EmpService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class EmpController {
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User getUser(@PathVariable String id) {
+    public EmpUser getUser(@PathVariable String id) {
         return empService.getUser(id);
     }
 
@@ -40,5 +40,14 @@ public class EmpController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id) {
         empService.deleteUser(id);
+    }
+
+    @RequestMapping(
+            value = "/{id}/application/{mortgageId}",
+            method = RequestMethod.POST
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public EmpUser apply(@PathVariable String id, @PathVariable String mortgageId) {
+        return empService.apply(id, mortgageId);
     }
 }

@@ -5,10 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cc.workflow.exceptions.AlreadyApplied;
 import com.cc.workflow.exceptions.ApplicationNotFound;
 import com.cc.workflow.exceptions.AuthError;
+import com.cc.workflow.exceptions.InvalidEmpUser;
 import com.cc.workflow.exceptions.InvalidMortgageApplication;
-import com.cc.workflow.exceptions.MortgageApplicationAlreadyExists;
 import com.cc.workflow.exceptions.UserNotFound;
 
 @ControllerAdvice
@@ -54,8 +55,18 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value =  MortgageApplicationAlreadyExists.class)
-    public ResponseEntity<APIErrorResponse> applicationAlreadyExists(MortgageApplicationAlreadyExists e) {
+    @ExceptionHandler(value =  InvalidEmpUser.class)
+    public ResponseEntity<APIErrorResponse> invalidEmpUser(InvalidEmpUser e) {
+        APIErrorResponse err = new APIErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                e.getErrorMessage()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value =  AlreadyApplied.class)
+    public ResponseEntity<APIErrorResponse> invalidEmpUser(AlreadyApplied e) {
         APIErrorResponse err = new APIErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 e.getErrorMessage()
