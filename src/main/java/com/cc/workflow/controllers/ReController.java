@@ -1,6 +1,7 @@
 package com.cc.workflow.controllers;
 
-import com.cc.workflow.data.User;
+import com.cc.workflow.data.re.Appraisal;
+import com.cc.workflow.data.re.REUser;
 import com.cc.workflow.services.ReService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,7 +31,7 @@ public class ReController {
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public User getUser(@PathVariable String id) {
+    public REUser getUser(@PathVariable String id) {
         return reService.getUser(id);
     }
 
@@ -40,5 +42,14 @@ public class ReController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id) {
         reService.deleteUser(id);
+    }
+
+    @RequestMapping(
+            value = "/{id}/appraisal",
+            method = RequestMethod.POST
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public REUser appraise(@PathVariable String id, @RequestBody Appraisal appraisal) {
+        return reService.appraise(id, appraisal);
     }
 }

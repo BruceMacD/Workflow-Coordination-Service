@@ -3,11 +3,14 @@ package com.cc.workflow.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.workflow.data.re.Appraisal;
+import com.cc.workflow.data.re.REUser;
 import com.cc.workflow.data.re.ReDAO;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
 import com.cc.workflow.security.PasswordHashUtility;
 
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -24,7 +27,7 @@ public class ReService {
         return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
     }
 
-    public User createUser(User user) {
+    public REUser createUser(REUser user) {
         user.setId(UUID.randomUUID().toString());
         Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());
@@ -34,11 +37,16 @@ public class ReService {
         return user;
     }
 
-    public User getUser(String id) {
+    public REUser getUser(String id) {
         return reDAO.getUser(id);
     }
 
     public void deleteUser(String id) {
         reDAO.deleteUser(id);
+    }
+
+    public REUser appraise(String id, Appraisal appraisal) {
+        appraisal.value = (new Random().nextInt(100) + 1) * 10000;
+        return reDAO.updateUser(id, appraisal);
     }
 }

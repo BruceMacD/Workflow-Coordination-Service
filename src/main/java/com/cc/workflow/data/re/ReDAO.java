@@ -1,9 +1,8 @@
 package com.cc.workflow.data.re;
 
-import com.cc.workflow.data.User;
-
 public interface ReDAO {
-    User createUser(User user);
-    User getUser(String id);
+    REUser createUser(REUser user);
+    REUser getUser(String id);
     void deleteUser(String id);
+    REUser updateUser(String id, Appraisal appraisal);
 }
