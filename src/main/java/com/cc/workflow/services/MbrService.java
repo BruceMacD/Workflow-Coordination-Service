@@ -62,6 +62,13 @@ public class MbrService {
         return user;
     }
 
+    public MbrUser updateEmpInfo(String id, EmpUser empinfo) {
+        MbrUser user = getUser(id);
+        user.setEmpInfo(empinfo);
+        mbrDAO.updateUser(user);
+        return user;
+    }
+
     private void verifyApplication(String id, MortgageApplication application) {
         try {
             UUID.fromString(application.mortgageInsuranceId);
