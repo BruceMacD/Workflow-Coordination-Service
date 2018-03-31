@@ -49,8 +49,7 @@ class MBRHomePage extends React.Component {
         const { requestId } = this.state;
         const { dispatch } = this.props;
         if (requestId) {
-            //TODO
-            //dispatch(mbrActions.status(submittedRequest));
+            dispatch(mbrActions.getStatus(requestId));
         }
     }
 

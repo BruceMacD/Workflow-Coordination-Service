@@ -3,7 +3,8 @@ import { jwtConstants, serverConstants } from '../_constants';
 
 export const mbrService = {
     create,
-    createUser
+    createUser,
+    getStatus
 };
 
 function create(name, mortgageValue, houseId) {
@@ -15,14 +16,14 @@ function create(name, mortgageValue, houseId) {
     };
 
     return fetch(serverConstants.MBR_SERVER_CREATE_ENDPOINT, requestOptions)
-    .then(response => {
-        if (!response.ok) { 
-            return Promise.reject(response.statusText);
-        }
-        return response.json();
-    }).then(responseBody => {
-        return responseBody;
-    });
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response.statusText);
+            }
+            return response.json();
+        }).then(responseBody => {
+            return responseBody;
+        });
 }
 
 function createUser(id, password) {
@@ -34,12 +35,32 @@ function createUser(id, password) {
     };
 
     return fetch(serverConstants.MBR_SERVER_CREATE_USER_ENDPOINT, requestOptions)
-    .then(response => {
-        if (!response.ok) { 
-            return Promise.reject(response.statusText);
-        }
-        return response.json();
-    }).then(responseBody => {
-        return responseBody;
-    });
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response.statusText);
+            }
+            return response.json();
+        }).then(responseBody => {
+            return responseBody;
+        });
+}
+
+function getStatus(id) {
+
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    const endpoint = serverConstants.MBR_SERVER_GET_STATUS_ENDPOINT + '/' + id;
+
+    return fetch( endpoint, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(response.statusText);
+            }
+            return response.json();
+        }).then(responseBody => {
+            return responseBody;
+        });
 }

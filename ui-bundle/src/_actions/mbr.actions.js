@@ -3,7 +3,8 @@ import { mbrService } from '../_services';
 
 export const mbrActions = {
     submit,
-    createUser
+    createUser,
+    getStatus
 };
 
 function submit(name, mortgageValue, houseId) {
@@ -36,4 +37,20 @@ function createUser(username, password) {
     function request() { return { type: userConstants.CREATE_USER_REQUEST } }
     function success(id) { return { type: userConstants.CREATE_USER_SUCCESS, id } }
     function failure(error) { return { type: userConstants.CREATE_USER_FAILURE, error } }
+}
+
+function getStatus(id) {
+    return dispatch => {
+        dispatch(request());
+
+        mbrService.getStatus(id)
+            .then(
+                response => dispatch(success(response)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: mbrConstants.GET_STATUS_REQUEST } }
+    function success(id) { return { type: mbrConstants.GET_STATUS_SUCCESS, id } }
+    function failure(error) { return { type: mbrConstants.GET_STATUS_FAILURE, error } }
 }
