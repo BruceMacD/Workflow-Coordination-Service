@@ -2,6 +2,7 @@ package com.cc.workflow.controllers;
 
 import com.cc.workflow.data.User;
 import com.cc.workflow.data.emp.EmpUser;
+import com.cc.workflow.data.ins.InsuranceQuote;
 import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
 import com.cc.workflow.data.mun.MUNServices;
@@ -73,5 +74,14 @@ public class MbrController {
     @ResponseStatus(HttpStatus.OK)
     public MbrUser updateMunInfo(@RequestBody MUNServices services) {
         return mbrService.updateMunInfo(services);
+    }
+
+    @RequestMapping(
+            value = "/insInfo",
+            method = RequestMethod.POST
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public MbrUser updateInsInfo(@RequestBody InsuranceQuote quote) {
+        return mbrService.updateInsInfo(quote);
     }
 }

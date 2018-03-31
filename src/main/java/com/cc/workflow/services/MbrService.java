@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.workflow.data.emp.EmpUser;
+import com.cc.workflow.data.ins.InsuranceQuote;
 import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
 import com.cc.workflow.data.mbr.MbrDAO;
@@ -73,6 +74,13 @@ public class MbrService {
     public MbrUser updateMunInfo(MUNServices services) {
         MbrUser user = mbrDAO.getUserByMortgageId(services.mortgageId);
         user.setMunInfo(services);
+        mbrDAO.updateUser(user);
+        return user;
+    }
+
+    public MbrUser updateInsInfo(InsuranceQuote quote) {
+        MbrUser user = mbrDAO.getUserByMortgageId(quote.mortgageId);
+        user.setInsuranceQuote(quote);
         mbrDAO.updateUser(user);
         return user;
     }

@@ -2,12 +2,14 @@ package com.cc.workflow.data.mbr;
 
 import com.cc.workflow.data.User;
 import com.cc.workflow.data.emp.EmpUser;
+import com.cc.workflow.data.ins.InsuranceQuote;
 import com.cc.workflow.data.mun.MUNServices;
 
 public class MbrUser extends User {
     private MortgageApplication application;
     private EmpUser empInfo;
     private MUNServices munInfo;
+    private InsuranceQuote insuranceQuote;
 
     public MortgageApplication getApplication() {
         return application;
@@ -31,5 +33,13 @@ public class MbrUser extends User {
 
     public void setMunInfo(MUNServices munInfo) {
         this.munInfo = munInfo;
+    }
+
+    public InsuranceQuote getInsuranceQuote() {
+        return insuranceQuote;
+    }
+
+    public void setInsuranceQuote(InsuranceQuote insuranceQuote) {
+        this.insuranceQuote = insuranceQuote;
     }
 }
