@@ -45,7 +45,7 @@ public class MbrController {
     }
 
     @RequestMapping(
-            value = "/{id}/apply",
+            value = "/{id}/application",
             method = RequestMethod.POST
     )
     @ResponseStatus(HttpStatus.OK)

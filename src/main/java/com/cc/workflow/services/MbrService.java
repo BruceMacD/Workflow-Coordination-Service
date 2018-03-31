@@ -58,7 +58,7 @@ public class MbrService {
         return mbrDAO.getApplication(id);
     }
 
-    private void verifyApplication(String id,MortgageApplication application) {
+    private void verifyApplication(String id, MortgageApplication application) {
         try {
             getUser(id);
             UUID.fromString(application.mortgageInsuranceId);

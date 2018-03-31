@@ -2,6 +2,7 @@ package com.cc.workflow.data.mbr;
 
 import com.cc.workflow.data.User;
 import com.cc.workflow.exceptions.ApplicationNotFound;
+import com.cc.workflow.exceptions.MortgageApplicationAlreadyExists;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;
@@ -32,6 +33,9 @@ public class MbrInMem implements MbrDAO {
 
     @Override
     public MortgageApplication saveApplication(String id, MortgageApplication application) {
+        if (applicationDB.get(id) != null) {
+            throw new MortgageApplicationAlreadyExists();
+        }
         applicationDB.put(id, application);
         return application;
     }

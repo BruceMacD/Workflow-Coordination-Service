@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.cc.workflow.exceptions.ApplicationNotFound;
 import com.cc.workflow.exceptions.AuthError;
 import com.cc.workflow.exceptions.InvalidMortgageApplication;
+import com.cc.workflow.exceptions.MortgageApplicationAlreadyExists;
 import com.cc.workflow.exceptions.UserNotFound;
 
 @ControllerAdvice
@@ -51,6 +52,16 @@ public class ErrorControllerAdvice {
         );
 
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value =  MortgageApplicationAlreadyExists.class)
+    public ResponseEntity<APIErrorResponse> applicationAlreadyExists(MortgageApplicationAlreadyExists e) {
+        APIErrorResponse err = new APIErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                e.getErrorMessage()
+        );
+
+        return new ResponseEntity<>(err, HttpStatus.CONFLICT);
     }
 
 //    @ExceptionHandler(value = RuntimeException.class)
