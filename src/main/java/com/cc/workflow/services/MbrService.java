@@ -3,11 +3,14 @@ package com.cc.workflow.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc.workflow.data.emp.EmpUser;
+import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
 import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.User;
 import javafx.util.Pair;
 
+import com.cc.workflow.exceptions.AlreadyApplied;
 import com.cc.workflow.exceptions.InvalidMortgageApplication;
 import com.cc.workflow.exceptions.UserNotFound;
 import com.cc.workflow.security.PasswordHashUtility;
@@ -29,7 +32,7 @@ public class MbrService {
         return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
     }
 
-    public User createUser(User user) {
+    public MbrUser createUser(MbrUser user) {
         user.setId(UUID.randomUUID().toString());
         Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());
@@ -39,7 +42,7 @@ public class MbrService {
         return user;
     }
 
-    public User getUser(String id) {
+    public MbrUser getUser(String id) {
         return mbrDAO.getUser(id);
     }
 
@@ -47,20 +50,20 @@ public class MbrService {
         mbrDAO.deleteUser(id);
     }
 
-    public MortgageApplication apply(String id, MortgageApplication application) {
+    public MbrUser apply(String id, MortgageApplication application) {
         verifyApplication(id, application);
         application.mortgageId = UUID.randomUUID().toString();
-        mbrDAO.saveApplication(id, application);
-        return application;
-    }
-
-    public MortgageApplication getApplication(String id) {
-        return mbrDAO.getApplication(id);
+        MbrUser user = mbrDAO.getUser(id);
+        if (user.getApplication() != null) {
+            throw new AlreadyApplied();
+        }
+        user.setApplication(application);
+        mbrDAO.updateUser(user);
+        return user;
     }
 
     private void verifyApplication(String id, MortgageApplication application) {
         try {
-            getUser(id);
             UUID.fromString(application.mortgageInsuranceId);
             if (application.mortgageVal < 0 || !Objects.nonNull(application.name) || application.name.length() == 0) {
                 throw new InvalidMortgageApplication();

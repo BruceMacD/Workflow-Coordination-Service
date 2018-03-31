@@ -1,6 +1,7 @@
 package com.cc.workflow.controllers;
 
 import com.cc.workflow.data.User;
+import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
 import com.cc.workflow.services.MbrService;
 
@@ -50,17 +51,7 @@ public class MbrController {
     )
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public MortgageApplication apply(@PathVariable String id, @RequestBody MortgageApplication application) {
+    public MbrUser apply(@PathVariable String id, @RequestBody MortgageApplication application) {
         return mbrService.apply(id, application);
-    }
-
-    @RequestMapping(
-            value = "/{id}/application",
-            method = RequestMethod.GET
-    )
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public MortgageApplication getApplication(@PathVariable String id) {
-        return mbrService.getApplication(id);
     }
 }

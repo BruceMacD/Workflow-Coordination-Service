@@ -1,25 +1,22 @@
 package com.cc.workflow.data.mbr;
 
-import com.cc.workflow.data.User;
-import com.cc.workflow.exceptions.AlreadyApplied;
-import com.cc.workflow.exceptions.ApplicationNotFound;
+import com.cc.workflow.data.emp.EmpUser;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;
 
 public class MbrInMem implements MbrDAO {
-    private static HashMap<String ,User> userDB = new HashMap<>();
-    private static HashMap<String, MortgageApplication> applicationDB = new HashMap<>();
+    private static HashMap<String, MbrUser> userDB = new HashMap<>();
 
     @Override
-    public User createUser(User user) {
+    public MbrUser createUser(MbrUser user) {
         userDB.put(user.getId(), user);
         return user;
     }
 
     @Override
-    public User getUser(String id) {
-        User user = userDB.get(id);
+    public MbrUser getUser(String id) {
+        MbrUser user = userDB.get(id);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -32,20 +29,8 @@ public class MbrInMem implements MbrDAO {
     }
 
     @Override
-    public MortgageApplication saveApplication(String id, MortgageApplication application) {
-        if (applicationDB.get(id) != null) {
-            throw new AlreadyApplied();
-        }
-        applicationDB.put(id, application);
-        return application;
-    }
-
-    @Override
-    public MortgageApplication getApplication(String id) {
-        MortgageApplication application = applicationDB.get(id);
-        if (application == null) {
-            throw new ApplicationNotFound();
-        }
-        return application;
+    public MbrUser updateUser(MbrUser user) {
+        userDB.put(user.getId(), user);
+        return user;
     }
 }

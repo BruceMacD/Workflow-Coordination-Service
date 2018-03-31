@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 import com.cc.workflow.data.User;
+import com.cc.workflow.data.emp.EmpUser;
+import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.exceptions.WorkflowError;
 import com.cc.workflow.services.EmpService;
 import com.cc.workflow.services.InsService;
@@ -49,11 +51,11 @@ public class RegistrationController {
 
         switch (url) {
             case "/emp/register":
-                return empService.createUser(user);
+                return empService.createUser((EmpUser) user);
             case "/ins/register":
                 return insService.createUser(user);
             case "/mbr/register":
-                return mbrService.createUser(user);
+                return mbrService.createUser((MbrUser) user);
             case "/re/register":
                 return reService.createUser(user);
             default:
