@@ -49,11 +49,11 @@ public class RegistrationController {
 
         switch (url) {
             case "/emp/register":
-                return empService.createUser((EmpUser) user);
+                return empService.createUser(new EmpUser(user));
             case "/mbr/register":
-                return mbrService.createUser((MbrUser) user);
+                return mbrService.createUser(new MbrUser(user));
             case "/re/register":
-                return reService.createUser((REUser) user);
+                return reService.createUser(new REUser(user));
             default:
                 throw new WorkflowError();
         }

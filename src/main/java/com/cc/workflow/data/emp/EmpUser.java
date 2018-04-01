@@ -8,6 +8,10 @@ public class EmpUser extends User {
     private String employmentStartDate;
     private boolean applied;
 
+    public EmpUser(User user) {
+        super(user);
+    }
+
     public String getName() {
         return name;
     }

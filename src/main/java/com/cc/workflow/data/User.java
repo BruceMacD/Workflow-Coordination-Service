@@ -21,6 +21,13 @@ public class User implements Serializable {
     public User() {
     }
 
+    // used for copying to perform function of a downcast
+    public User(User user) {
+        this.id = user.id;
+        this.password = user.password;
+        this.salt = user.salt;
+    }
+
     public User(String id, String password) {
         this.id = id;
         this.password = password;
