@@ -7,15 +7,22 @@ export const mbrService = {
     getStatus
 };
 
-function create(name, mortgageValue, houseId) {
+function create(id, name, mortgageValue, mortgageInsuranceId) {
+
+    const mortgageVal = Number.parseInt(mortgageValue);
+    
+    let user = JSON.parse(localStorage.getItem(jwtConstants.MBR_TOKEN));
 
     const requestOptions = {
         method: 'POST',
-        headers: authHeader(jwtConstants.MBR_TOKEN) + { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, mortgageValue, houseId })
+        headers: {
+            'x-auth-token': user.token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, mortgageVal, mortgageInsuranceId })
     };
-
-    return fetch(serverConstants.MBR_SERVER_CREATE_ENDPOINT, requestOptions)
+    
+    return fetch(serverConstants.MBR_SERVER_CREATE_ENDPOINT + '/' + id + '/application', requestOptions)
         .then(response => {
             if (!response.ok) {
                 return Promise.reject(response.statusText);

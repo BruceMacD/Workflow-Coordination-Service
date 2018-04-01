@@ -7,11 +7,11 @@ export const mbrActions = {
     getStatus
 };
 
-function submit(name, mortgageValue, houseId) {
+function submit(id, name, mortgageVal, mortgageInsuranceId) {
     return dispatch => {
         dispatch(request());
 
-        mbrService.create(name, mortgageValue, houseId)
+        mbrService.create(id, name, mortgageVal, mortgageInsuranceId)
             .then(
                 id => dispatch(success(id)),
                 error => dispatch(failure(error))

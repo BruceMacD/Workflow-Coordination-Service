@@ -15,7 +15,7 @@ function login(portal, id, password) {
         userService.login(portal, id, password)
             .then(
                 user => { 
-                    dispatch(success(user));
+                    dispatch(success({id, user}));
                     // redirect based on portal login used
                     history.push('/' + portal);
                 },

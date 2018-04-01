@@ -14,8 +14,8 @@ class MBRHomePage extends React.Component {
 
         this.state = {
             name: '',
-            mortgageValue: '',
-            houseId: '',
+            mortgageVal: '',
+            mortgageInsuranceId: '',
             submittedForm: false,
             requestId: '',
             submittedRequest: false
@@ -34,11 +34,13 @@ class MBRHomePage extends React.Component {
     handleSubmitForm(e) {
         e.preventDefault();
 
+        const { userId } = this.props;
+
         this.setState({ submittedForm: true });
-        const { name, mortgageValue, houseId } = this.state;
+        const { name, mortgageVal, mortgageInsuranceId } = this.state;
         const { dispatch } = this.props;
-        if (name && mortgageValue && houseId) {
-            dispatch(mbrActions.submit(name, mortgageValue, houseId));
+        if (name && mortgageVal && mortgageInsuranceId) {
+            dispatch(mbrActions.submit(userId, name, mortgageVal, mortgageInsuranceId));
         }
     }
 
@@ -57,7 +59,7 @@ class MBRHomePage extends React.Component {
         const visibilityState = this.state.submittedRequest ? "visible" : "hidden";
         const { user } = this.props;
         const { status } = this.props;
-        const { name, mortgageValue, houseId, submittedForm, requestId, submittedRequest } = this.state;
+        const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedRequest } = this.state;
         return (
             <div>
                 <h1>MBR</h1>
@@ -74,18 +76,18 @@ class MBRHomePage extends React.Component {
                                     <div className="help-block">Name is required</div>
                                 }
                             </div>
-                            <div className={'form-group' + (submittedForm && !mortgageValue ? ' has-error' : '')}>
-                                <label htmlFor="mortgageValue">Mortgage Value ($)</label>
-                                <input type="mortgageValue" className="form-control" name="mortgageValue" value={mortgageValue} onChange={this.handleChange} />
-                                {submittedForm && !mortgageValue &&
+                            <div className={'form-group' + (submittedForm && !mortgageVal ? ' has-error' : '')}>
+                                <label htmlFor="mortgageVal">Mortgage Value ($)</label>
+                                <input type="mortgageVal" className="form-control" name="mortgageVal" value={mortgageVal} onChange={this.handleChange} />
+                                {submittedForm && !mortgageVal &&
                                     <div className="help-block">Mortgage value is required</div>
                                 }
                             </div>
-                            <div className={'form-group' + (submittedForm && !houseId ? ' has-error' : '')}>
-                                <label htmlFor="houseId">House ID</label>
-                                <input type="text" className="form-control" name="houseId" value={houseId} onChange={this.handleChange} />
-                                {submittedForm && !houseId &&
-                                    <div className="help-block">House ID is required</div>
+                            <div className={'form-group' + (submittedForm && !mortgageInsuranceId ? ' has-error' : '')}>
+                                <label htmlFor="mortgageInsuranceId">Mortgage Insurance ID</label>
+                                <input type="text" className="form-control" name="mortgageInsuranceId" value={mortgageInsuranceId} onChange={this.handleChange} />
+                                {submittedForm && !mortgageInsuranceId &&
+                                    <div className="help-block">Mortgage Insurance ID is required</div>
                                 }
                             </div>
                             <div className="form-group">
@@ -121,9 +123,11 @@ class MBRHomePage extends React.Component {
 function mapStateToProps(state) {
     const { authentication } = state;
     const { user } = authentication;
+    const userId = state.authentication.user.id;
     const status = state.mbr.status;
     return {
         user,
+        userId,
         status
     };
 }

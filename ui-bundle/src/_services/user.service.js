@@ -6,7 +6,7 @@ export const userService = {
     logout
 };
 
-function sendFetch(endpoint, storage, requestOptions) {
+function sendFetch(endpoint, storage, requestOptions, id) {
     return fetch(endpoint, requestOptions)
         .then(response => {
             if (!response.ok) { 
@@ -17,6 +17,7 @@ function sendFetch(endpoint, storage, requestOptions) {
         .then(user => {
             // login successful if there's a jwt token in the response
             if (user && user.token) {
+                user.id = id;
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem(storage, JSON.stringify(user));
             }
@@ -37,7 +38,7 @@ function login(portal, id, password) {
     // TODO: handle other login portals
     switch(portal) {
         case portalConstants.MBR_PORTAL:
-            return sendFetch(serverConstants.MBR_SERVER_LOGIN_ENDPOINT, jwtConstants.MBR_TOKEN, requestOptions);
+            return sendFetch(serverConstants.MBR_SERVER_LOGIN_ENDPOINT, jwtConstants.MBR_TOKEN, requestOptions, id);
     }
 }
 
