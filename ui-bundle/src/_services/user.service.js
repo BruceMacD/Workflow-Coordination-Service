@@ -35,10 +35,14 @@ function login(portal, id, password) {
 
     // allows for reusable logic in multiple portals
     // different portals save different jwt
-    // TODO: handle other login portals
     switch(portal) {
         case portalConstants.MBR_PORTAL:
             return sendFetch(serverConstants.MBR_SERVER_LOGIN_ENDPOINT, jwtConstants.MBR_TOKEN, requestOptions, id);
+        case portalConstants.EMP_PORTAL:
+            return sendFetch(serverConstants.EMP_SERVER_LOGIN_ENDPOINT, jwtConstants.EMP_TOKEN, requestOptions, id);
+        case portalConstants.RE_PORTAL:
+            return sendFetch(serverConstants.RE_SERVER_LOGIN_ENDPOINT, jwtConstants.RE_TOKEN, requestOptions, id);
+            
     }
 }
 

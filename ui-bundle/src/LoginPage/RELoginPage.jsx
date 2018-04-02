@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { Alert, Modal, Button } from 'react-bootstrap';
 
 import { portalConstants } from '../_constants';
-import { userActions, mbrActions } from '../_actions';
+import { userActions, reActions } from '../_actions';
 
-class MBRLoginPage extends React.Component {
+class RELoginPage extends React.Component {
 
     constructor(props) {
         super(props);
 
         // reset login status
-        this.props.dispatch(userActions.logout(portalConstants.MBR_PORTAL));
+        this.props.dispatch(userActions.logout(portalConstants.RE_PORTAL));
 
         this.state = {
             show: false,
@@ -52,7 +52,7 @@ class MBRLoginPage extends React.Component {
         const { id, password } = this.state;
         const { dispatch } = this.props;
         if (id && password) {
-            dispatch(userActions.login(portalConstants.MBR_PORTAL, id, password));
+            dispatch(userActions.login(portalConstants.RE_PORTAL, id, password));
         }
     }
 
@@ -63,7 +63,7 @@ class MBRLoginPage extends React.Component {
         const { username, newPassword } = this.state;
         const { dispatch } = this.props;
         if (username && newPassword) {
-            dispatch(mbrActions.createUser(username, newPassword));
+            dispatch(reActions.createUser(username, newPassword));
             this.setState({ created: true });
         }
     }
@@ -143,7 +143,7 @@ class MBRLoginPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { loggingIn } = state.mbrAuthentication;
+    const { loggingIn } = state.reAuthentication;
     const newId = state.users.id;
     return {
         loggingIn,
@@ -151,5 +151,5 @@ function mapStateToProps(state) {
     };
 }
 
-const connectedMBRLoginPage = connect(mapStateToProps)(MBRLoginPage);
-export { connectedMBRLoginPage as MBRLoginPage }; 
+const connectedRELoginPage = connect(mapStateToProps)(RELoginPage);
+export { connectedRELoginPage as RELoginPage }; 

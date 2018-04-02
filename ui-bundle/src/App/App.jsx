@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import { history } from '../_helpers';
 import { alertActions } from '../_actions';
-import { PrivateRouteMBR } from '../_components';
-import { MBRHomePage } from '../HomePage';
-import { MBRLoginPage } from '../LoginPage';
+import { PrivateRouteMBR, PrivateRouteEMP, PrivateRouteRE } from '../_components';
+import { MBRHomePage, EMPHomePage, REHomePage } from '../HomePage';
+import { MBRLoginPage, EMPLoginPage, RELoginPage } from '../LoginPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -31,6 +31,12 @@ class App extends React.Component {
                         <div>
                             <PrivateRouteMBR exact path="/mbr" component={MBRHomePage} />
                             <Route path="/mbr/login" component={MBRLoginPage} />
+
+                            <PrivateRouteEMP exact path="/emp" component={EMPHomePage} />
+                            <Route path="/emp/login" component={EMPLoginPage} />
+
+                            <PrivateRouteRE exact path="/re" component={REHomePage} />
+                            <Route path="/re/login" component={RELoginPage} />
                         </div>
                     </Router>
                 </div>

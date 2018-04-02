@@ -30,7 +30,8 @@ public class EmpService {
     }
 
     public EmpUser createUser(EmpUser user) {
-        validateUser(user);
+        // Had to remove this validation as a user object wont have all the fields needed for validating
+        // validateUser(user);
         user.setId(UUID.randomUUID().toString());
         Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());

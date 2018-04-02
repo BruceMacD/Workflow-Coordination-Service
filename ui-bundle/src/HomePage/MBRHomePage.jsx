@@ -127,9 +127,9 @@ class MBRHomePage extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { authentication } = state;
-    const { user } = authentication;
-    const userId = state.authentication.user.id;
+    const { mbrAuthentication } = state;
+    const { user } = mbrAuthentication;
+    const userId = state.mbrAuthentication.user.id;
     
     let status = state.mbr.application;
     const empStatus = status.empInfo ? 'CONFIRMED' : 'PENDING';
@@ -138,7 +138,6 @@ function mapStateToProps(state) {
 
     let application = state.mbr.application.application;
     const applicationId = application ? application.mortgageId : '';
-    //const applicationId = state.mbr.application.application.mortgageId;
     return {
         user,
         userId,
