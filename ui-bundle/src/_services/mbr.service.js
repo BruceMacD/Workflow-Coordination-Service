@@ -54,9 +54,13 @@ function createUser(id, password) {
 
 function getStatus(id) {
 
+    let user = JSON.parse(localStorage.getItem(jwtConstants.MBR_TOKEN));
+
     const requestOptions = {
         method: 'GET',
-        headers: authHeader()
+        headers: {
+            'x-auth-token': user.token
+        },
     };
 
     const endpoint = serverConstants.MBR_SERVER_GET_STATUS_ENDPOINT + '/' + id;

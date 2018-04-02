@@ -1,12 +1,16 @@
 import { mbrConstants } from '../_constants';
 
-const initialState = { status: { emp: 'pending', ins: 'pending' } };
+const initialState = { application:{ } };
 
 export function mbr(state = initialState, action) {
   switch (action.type) {
     case mbrConstants.GET_STATUS_SUCCESS:
       return {
-        status: action.status
+        application: action.id
+      };
+    case mbrConstants.CREATE_SUCCESS:
+      return {
+        application: action.id
       };
     default:
       return state

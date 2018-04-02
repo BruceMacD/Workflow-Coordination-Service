@@ -18,7 +18,7 @@ class MBRHomePage extends React.Component {
             mortgageInsuranceId: '',
             submittedForm: false,
             requestId: '',
-            submittedRequest: false
+            submittedStatusRequest: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -47,19 +47,25 @@ class MBRHomePage extends React.Component {
     handleGetStatus(e) {
         e.preventDefault();
 
-        this.setState({ submittedRequest: true });
-        const { requestId } = this.state;
+        this.setState({ submittedStatusRequest: true });
+        const { userId } = this.props;
         const { dispatch } = this.props;
-        if (requestId) {
-            dispatch(mbrActions.getStatus(requestId));
+        if (userId) {
+            dispatch(mbrActions.getStatus(userId));
         }
     }
 
     render() {
-        const visibilityState = this.state.submittedRequest ? "visible" : "hidden";
+        const requestVisibilityState = this.state.submittedStatusRequest ? "visible" : "hidden";
+        const mbrVisibilityState = this.state.submittedForm ? "visible" : "hidden";
+        
         const { user } = this.props;
-        const { status } = this.props;
-        const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedRequest } = this.state;
+        const { empStatus } = this.props;
+        const { insStatus } = this.props;
+        const { munStatus } = this.props;
+        const { applicationId } = this.props;
+        const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedStatusRequest } = this.state;
+        
         return (
             <div>
                 <h1>MBR</h1>
@@ -94,24 +100,24 @@ class MBRHomePage extends React.Component {
                                 <button className="btn btn-primary">Submit</button>
                             </div>
                         </form>
+
+                        <Alert style={{visibility: mbrVisibilityState}} bsStyle="success">
+                            <strong>Request Submitted</strong>
+                            <p>MBR Request ID: { applicationId }</p>
+                        </Alert>
                     </Tab>
                     <Tab eventKey={2} title="Request Status">
+                        <p></p>
                         <form name="form" onSubmit={this.handleGetStatus}>
-                            <div className={'form-group' + (submittedRequest && !requestId ? ' has-error' : '')}>
-                                <label htmlFor="requestId">Request ID</label>
-                                <input type="text" className="form-control" name="requestId" value={requestId} onChange={this.handleChange} />
-                                {submittedRequest && !requestId &&
-                                    <div className="help-block">Request ID is required</div>
-                                }
-                            </div>
                             <div className="form-group">
                                 <button className="btn btn-primary">Get Status</button>
                             </div>
                         </form>
-                        <Alert style={{visibility: visibilityState}} bsStyle="success">
-                            <strong>Request status:</strong>
-                            <p>Employer: { status.emp }</p>
-                            <p>Insurance: { status.ins }</p>
+                        <Alert style={{visibility: requestVisibilityState}} bsStyle="success">
+                            <strong>Request Status</strong>
+                            <p>Employer: { empStatus }</p>
+                            <p>Insurance: { insStatus }</p>
+                            <p>Municipality: { munStatus }</p>
                         </Alert>
                     </Tab>
                 </Tabs>
@@ -124,11 +130,22 @@ function mapStateToProps(state) {
     const { authentication } = state;
     const { user } = authentication;
     const userId = state.authentication.user.id;
-    const status = state.mbr.status;
+    
+    let status = state.mbr.application;
+    const empStatus = status.empInfo ? 'CONFIRMED' : 'PENDING';
+    const insStatus = status.insInfo ? 'CONFIRMED' : 'PENDING';
+    const munStatus = status.munInfo ? 'CONFIRMED' : 'PENDING';
+
+    let application = state.mbr.application.application;
+    const applicationId = application ? application.mortgageId : '';
+    //const applicationId = state.mbr.application.application.mortgageId;
     return {
         user,
         userId,
-        status
+        empStatus,
+        insStatus,
+        munStatus,
+        applicationId
     };
 }
 
