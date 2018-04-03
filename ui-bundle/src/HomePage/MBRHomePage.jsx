@@ -66,7 +66,7 @@ class MBRHomePage extends React.Component {
         const { user } = this.props;
         const { mbrName } = this.props;
         const { empStatus, insStatus, munStatus } = this.props;
-        const { applicationId, applicationName, applicationInsId, applicationVal } = this.props;
+        const { applicationId, applicationName, applicationInsId, applicationVal, empId, empStartDate, empSalary, servicesCode, insuredValue, deductible } = this.props;
         const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedStatusRequest } = this.state;
         
         if (empStatus === "CONFIRMED" && insStatus === "CONFIRMED" && munStatus === "CONFIRMED") {
@@ -128,14 +128,19 @@ class MBRHomePage extends React.Component {
                         </Alert>
                         <Alert style={{visibility: docVisibilityState}} bsStyle="info">
                             <strong>Mortgage Document</strong>
+                            <p>Name: { applicationName }</p>
                             <p>Mortgage ID: { applicationId }</p>
                             <p>Mortgage Insurance ID: { applicationInsId }</p>
-                            <p>Mortgage Value: { applicationVal }</p>
-                            <p>Name: { applicationName }</p>
+                            <p>Mortgage Value: ${ applicationVal }</p>
                             <p></p>
-                            <p>Employer: TODO</p>
-                            <p>Municipality: TODO</p>
-                            <p>Insurance: TODO</p>
+                            <p>Employee ID: { empId }</p>
+                            <p>Employment Start Date: { empStartDate }</p>
+                            <p>Salary: ${ empSalary }</p>
+                            <p></p>
+                            <p>Services Code: { servicesCode }</p>
+                            <p></p>
+                            <p>Insured Value: ${ insuredValue }</p>
+                            <p>Deductible: ${ deductible }</p>
                         </Alert>
                     </Tab>
                 </Tabs>
@@ -159,6 +164,19 @@ function mapStateToProps(state) {
     const applicationName = application ? application.name : '';
     const applicationInsId = application ? application.mortgageInsuranceId : '';
     const applicationVal = application ? application.mortgageVal : '';
+
+    let empInfo = state.mbr.application.empInfo;
+    const empId = empInfo ? empInfo.id : '';
+    const empStartDate = empInfo ? empInfo.employmentStartDate : '';
+    const empSalary = empInfo ? empInfo.salary : '';
+
+    let munInfo = state.mbr.application.munInfo;
+    const servicesCode = munInfo ? munInfo.servicesCode : '';
+    
+    let insInfo = state.mbr.application.insInfo;
+    const insuredValue = insInfo ? insInfo.insuredValue : '';
+    const deductible = insInfo ? insInfo.deductible : '';
+
     return {
         user,
         userId,
@@ -169,7 +187,13 @@ function mapStateToProps(state) {
         applicationId,
         applicationName,
         applicationInsId,
-        applicationVal
+        applicationVal,
+        empId,
+        empStartDate,
+        empSalary,
+        servicesCode,
+        insuredValue,
+        deductible
     };
 }
 
