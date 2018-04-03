@@ -11,7 +11,11 @@ class REHomePage extends React.Component {
         super(props);
 
         this.state = {
-            submittedForm: false
+            name: '',
+            mIsId: '',
+            mortId: '',
+            submittedForm: false,
+            dispatchedForm: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,40 +33,66 @@ class REHomePage extends React.Component {
         const { userId } = this.props;
 
         this.setState({ submittedForm: true });
-        // const { name, mortgageVal, mortgageInsuranceId } = this.state;
-        // const { dispatch } = this.props;
-        // if (name && mortgageVal && mortgageInsuranceId) {
-        //     dispatch(empActions.submit(userId, name, mortgageVal, mortgageInsuranceId));
-        // }
+
+        const { name, mIsId, mortId } = this.state;
+        const { dispatch } = this.props;
+
+        if (name && mIsId && mortId) {
+            this.setState({ dispatchedForm: true });
+            dispatch(reActions.submit(userId, name, mIsId, mortId))
+        }
     }
 
     render() {
-        // const requestVisibilityState = this.state.submittedStatusRequest ? "visible" : "hidden";
-        
+        const ackVisibilityState = this.state.dispatchedForm ? "visible" : "hidden";
+
         const { user } = this.props;
-        const { submittedForm } = this.state;
-        
+        const { name, mIsId, mortId, submittedForm } = this.state;
+
         return (
             <div>
-                <h1>RE</h1>
+                <h1>Real Estate</h1>
                 <p>
                     <Link to="/re/login">Logout</Link>
                 </p>
                 <Tabs defaultActiveKey={1} id="re-tabs">
-                    <Tab eventKey={1} title="New Request">
+                    <Tab eventKey={1} title="Welcome">
+                        <p></p>
+                        <h3>Welcome to the RE Appraisals</h3>
+                        <p>Request property valuations</p>
+                    </Tab>
+                    <Tab eventKey={2} title="Property Appraisal">
+                        <p></p>
                         <form name="form" onSubmit={this.handleSubmitForm}>
+                            <div className={'form-group' + (submittedForm && !name ? ' has-error' : '')}>
+                                <label htmlFor="name">Name</label>
+                                <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange} />
+                                {submittedForm && !name &&
+                                    <div className="help-block">Name is required</div>
+                                }
+                            </div>
+                            <div className={'form-group' + (submittedForm && !mIsId ? ' has-error' : '')}>
+                                <label htmlFor="mIsId">Mortgage Insurance ID</label>
+                                <input type="text" className="form-control" name="mIsId" value={mIsId} onChange={this.handleChange} />
+                                {submittedForm && !mIsId &&
+                                    <div className="help-block">Mortgage Insurance ID is required</div>
+                                }
+                            </div>
+                            <div className={'form-group' + (submittedForm && !mortId ? ' has-error' : '')}>
+                                <label htmlFor="mortId">Mortgage ID</label>
+                                <input type="text" className="form-control" name="mortId" value={mortId} onChange={this.handleChange} />
+                                {submittedForm && !mortId &&
+                                    <div className="help-block">Mortgage ID is required</div>
+                                }
+                            </div>
                             <div className="form-group">
                                 <button className="btn btn-primary">Submit</button>
                             </div>
                         </form>
 
-                        {/* <Alert style={{visibility: mbrVisibilityState}} bsStyle="success">
-                            <strong>Request Submitted</strong>
-                            <p>MBR Request ID: { applicationId }</p>
-                        </Alert> */}
-                    </Tab>
-                    <Tab eventKey={2} title="Request Status">
-                        <p></p>
+                        <Alert style={{ visibility: ackVisibilityState }} bsStyle="success">
+                            <strong>Appraisal Submitted</strong>
+                        </Alert>
                     </Tab>
                 </Tabs>
             </div>

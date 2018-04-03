@@ -6,21 +6,20 @@ export const reActions = {
     createUser
 };
 
-//TODO
-function submit(id) {
-    // return dispatch => {
-    //     dispatch(request());
+function submit(userId, name, mIsId, mortId) {
+    return dispatch => {
+        dispatch(request());
 
-    //     mbrService.create(id, name, mortgageVal, mortgageInsuranceId)
-    //         .then(
-    //             id => dispatch(success(id)),
-    //             error => dispatch(failure(error))
-    //         );
-    // };
+        reService.appraise(userId, name, mIsId, mortId)
+            .then(
+                id => dispatch(success(id)),
+                error => dispatch(failure(error))
+            );
+    };
 
-    // function request() { return { type: mbrConstants.CREATE_REQUEST } }
-    // function success(id) { return { type: mbrConstants.CREATE_SUCCESS, id } }
-    // function failure(error) { return { type: mbrConstants.CREATE_FAILURE, error } }
+    function request() { return { type: reConstants.APPRAISAL_REQUEST } }
+    function success(id) { return { type: reConstants.APPRAISAL_SUCCESS, id } }
+    function failure(error) { return { type: reConstants.APPRAISAL_FAILURE, error } }
 }
 
 function createUser(username, password) {

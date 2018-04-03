@@ -10,4 +10,5 @@ export const serverConstants = {
 
     RE_SERVER_CREATE_USER_ENDPOINT: 'http://localhost:8080/re/register',
     RE_SERVER_LOGIN_ENDPOINT: 'http://localhost:8080/re/auth',
+    RE_APPRAISAL_ENDPOINT: 'http://localhost:8080/re',
 };
