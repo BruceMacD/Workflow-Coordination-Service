@@ -61,13 +61,17 @@ class MBRHomePage extends React.Component {
     render() {
         const requestVisibilityState = this.state.submittedStatusRequest ? "visible" : "hidden";
         const mbrVisibilityState = this.state.dispatchedForm ? "visible" : "hidden";
+        let docVisibilityState = "hidden";
         
         const { user } = this.props;
-        const { empStatus } = this.props;
-        const { insStatus } = this.props;
-        const { munStatus } = this.props;
-        const { applicationId } = this.props;
+        const { mbrName } = this.props;
+        const { empStatus, insStatus, munStatus } = this.props;
+        const { applicationId, applicationName, applicationInsId, applicationVal } = this.props;
         const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedStatusRequest } = this.state;
+        
+        if (empStatus === "CONFIRMED" && insStatus === "CONFIRMED" && munStatus === "CONFIRMED") {
+            docVisibilityState = "visible";
+        }
         
         return (
             <div>
@@ -122,6 +126,17 @@ class MBRHomePage extends React.Component {
                             <p>Insurance: { insStatus }</p>
                             <p>Municipality: { munStatus }</p>
                         </Alert>
+                        <Alert style={{visibility: docVisibilityState}} bsStyle="info">
+                            <strong>Mortgage Document</strong>
+                            <p>Mortgage ID: { applicationId }</p>
+                            <p>Mortgage Insurance ID: { applicationInsId }</p>
+                            <p>Mortgage Value: { applicationVal }</p>
+                            <p>Name: { applicationName }</p>
+                            <p></p>
+                            <p>Employer: TODO</p>
+                            <p>Municipality: TODO</p>
+                            <p>Insurance: TODO</p>
+                        </Alert>
                     </Tab>
                 </Tabs>
             </div>
@@ -134,20 +149,27 @@ function mapStateToProps(state) {
     const { user } = mbrAuthentication;
     const userId = state.mbrAuthentication.user.id;
     
-    let status = state.mbr.application;
+    const status = state.mbr.application;
     const empStatus = status.empInfo ? 'CONFIRMED' : 'PENDING';
     const insStatus = status.insInfo ? 'CONFIRMED' : 'PENDING';
     const munStatus = status.munInfo ? 'CONFIRMED' : 'PENDING';
 
     let application = state.mbr.application.application;
     const applicationId = application ? application.mortgageId : '';
+    const applicationName = application ? application.name : '';
+    const applicationInsId = application ? application.mortgageInsuranceId : '';
+    const applicationVal = application ? application.mortgageVal : '';
     return {
         user,
         userId,
+        application,
         empStatus,
         insStatus,
         munStatus,
-        applicationId
+        applicationId,
+        applicationName,
+        applicationInsId,
+        applicationVal
     };
 }
 
