@@ -12,6 +12,13 @@ public class EmpUser extends User {
         super(user);
     }
 
+    public EmpUser(String name, int salary, String employmentStartDate, boolean applied){
+        this.name = name;
+        this.salary =  salary;
+        this.employmentStartDate = employmentStartDate;
+        this.applied = applied;
+    }
+
     public String getName() {
         return name;
     }

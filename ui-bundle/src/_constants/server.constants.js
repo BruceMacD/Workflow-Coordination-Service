@@ -6,6 +6,7 @@ export const serverConstants = {
 
     EMP_SERVER_CREATE_USER_ENDPOINT: 'http://localhost:8080/emp/register',
     EMP_SERVER_LOGIN_ENDPOINT: 'http://localhost:8080/emp/auth',
+    EMP_SERVER_ROOT_ENDPOINT: 'http://localhost:8080/emp',
 
     RE_SERVER_CREATE_USER_ENDPOINT: 'http://localhost:8080/re/register',
     RE_SERVER_LOGIN_ENDPOINT: 'http://localhost:8080/re/auth',

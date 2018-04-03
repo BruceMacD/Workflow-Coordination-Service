@@ -3,24 +3,40 @@ import { empService } from '../_services';
 
 export const empActions = {
     submit,
+    apply,
     createUser
 };
 
-//TODO
-function submit(id) {
-    // return dispatch => {
-    //     dispatch(request());
+function submit(id, name, salary, startDate) {
+    return dispatch => {
+        dispatch(request());
 
-    //     mbrService.create(id, name, mortgageVal, mortgageInsuranceId)
-    //         .then(
-    //             id => dispatch(success(id)),
-    //             error => dispatch(failure(error))
-    //         );
-    // };
+        empService.patch(id, name, salary, startDate)
+            .then(
+                id => dispatch(success(id)),
+                error => dispatch(failure(error))
+            );
+    };
 
-    // function request() { return { type: mbrConstants.CREATE_REQUEST } }
-    // function success(id) { return { type: mbrConstants.CREATE_SUCCESS, id } }
-    // function failure(error) { return { type: mbrConstants.CREATE_FAILURE, error } }
+    function request() { return { type: empConstants.PATCH_REQUEST } }
+    function success(id) { return { type: empConstants.PATCH_SUCCESS, id } }
+    function failure(error) { return { type: empConstants.PATCH_FAILURE, error } }
+}
+
+function apply(id, mortId){
+    return dispatch => {
+        dispatch(request());
+
+        empService.apply(id, mortId)
+            .then(
+                id => dispatch(success(id)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function request() { return { type: empConstants.APPLY_REQUEST } }
+    function success(id) { return { type: empConstants.APPLY_SUCCESS, id } }
+    function failure(error) { return { type: empConstants.APPLY_FAILURE, error } }
 }
 
 function createUser(username, password) {

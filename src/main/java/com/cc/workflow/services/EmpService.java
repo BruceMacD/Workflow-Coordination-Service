@@ -45,6 +45,16 @@ public class EmpService {
         return empDAO.getUser(id);
     }
 
+    public EmpUser modify(String id, EmpUser user) {
+        EmpUser patchedUser = getUser(id);
+        patchedUser.setName(user.getName());
+        patchedUser.setSalary(user.getSalary());
+        patchedUser.setEmploymentStartDate(user.getEmploymentStartDate());
+
+        empDAO.updateUser(id, patchedUser);
+        return patchedUser;
+    }
+
     public void deleteUser(String id) {
         empDAO.deleteUser(id);
     }

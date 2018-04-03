@@ -17,6 +17,7 @@ class MBRHomePage extends React.Component {
             mortgageVal: '',
             mortgageInsuranceId: '',
             submittedForm: false,
+            dispatchedForm: false,
             requestId: '',
             submittedStatusRequest: false
         };
@@ -37,9 +38,11 @@ class MBRHomePage extends React.Component {
         const { userId } = this.props;
 
         this.setState({ submittedForm: true });
+        
         const { name, mortgageVal, mortgageInsuranceId } = this.state;
         const { dispatch } = this.props;
         if (name && mortgageVal && mortgageInsuranceId) {
+            this.setState({ dispatchedForm: true });
             dispatch(mbrActions.submit(userId, name, mortgageVal, mortgageInsuranceId));
         }
     }
@@ -57,7 +60,7 @@ class MBRHomePage extends React.Component {
 
     render() {
         const requestVisibilityState = this.state.submittedStatusRequest ? "visible" : "hidden";
-        const mbrVisibilityState = this.state.submittedForm ? "visible" : "hidden";
+        const mbrVisibilityState = this.state.dispatchedForm ? "visible" : "hidden";
         
         const { user } = this.props;
         const { empStatus } = this.props;
