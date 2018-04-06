@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { isUUID } from 'validator';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab, Alert } from 'react-bootstrap';
 
 import { userActions, reActions } from '../_actions';
@@ -15,7 +16,9 @@ class REHomePage extends React.Component {
             mIsId: '',
             mortId: '',
             submittedForm: false,
-            dispatchedForm: false
+            dispatchedForm: false,
+            validInsId: false,
+            validMortId: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -34,20 +37,23 @@ class REHomePage extends React.Component {
 
         this.setState({ submittedForm: true });
 
-        const { name, mIsId, mortId } = this.state;
         const { dispatch } = this.props;
+        const { name, mIsId, mortId, validInsId, validMortId } = this.state;
 
-        if (name && mIsId && mortId) {
+        if (name && mIsId && mortId && isUUID(mortId) && isUUID(mIsId)) {
             this.setState({ dispatchedForm: true });
             dispatch(reActions.submit(userId, name, mIsId, mortId))
         }
+
+        this.setState({ validMortId: isUUID(mortId)});
+        this.setState({ validInsId: isUUID(mIsId)});
     }
 
     render() {
         const ackVisibilityState = this.state.dispatchedForm ? "visible" : "hidden";
 
         const { user } = this.props;
-        const { name, mIsId, mortId, submittedForm } = this.state;
+        const { name, mIsId, mortId, submittedForm, validInsId, validMortId } = this.state;
 
         return (
             <div>
@@ -81,8 +87,8 @@ class REHomePage extends React.Component {
                             <div className={'form-group' + (submittedForm && !mortId ? ' has-error' : '')}>
                                 <label htmlFor="mortId">Mortgage ID</label>
                                 <input type="text" className="form-control" name="mortId" value={mortId} onChange={this.handleChange} />
-                                {submittedForm && !mortId &&
-                                    <div className="help-block">Mortgage ID is required</div>
+                                {submittedForm && (!mortId || !validInsId || !validMortId) &&
+                                    <div className="help-block">Mortgage ID is required and must be a valid UUID</div>
                                 }
                             </div>
                             <div className="form-group">

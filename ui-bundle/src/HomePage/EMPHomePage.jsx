@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { isUUID } from 'validator';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab, Alert } from 'react-bootstrap';
 
 import { userActions, empActions } from '../_actions';
@@ -16,7 +17,8 @@ class EMPHomePage extends React.Component {
             startDate: '',
             mortId: '',
             submittedForm: false,
-            dispatchedForm: false
+            dispatchedForm: false,
+            validId: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,10 +37,10 @@ class EMPHomePage extends React.Component {
 
         this.setState({ submittedForm: true });
 
-        const { name, salary, startDate, mortId } = this.state;
         const { dispatch } = this.props;
+        const { name, salary, startDate, mortId, validId } = this.state;
 
-        if (name && salary && startDate && mortId) {
+        if (name && salary && startDate && mortId && isUUID(mortId)) {
             this.setState({ dispatchedForm: true });
 
             // this should wait until a result is returned from patch before applying
@@ -48,13 +50,15 @@ class EMPHomePage extends React.Component {
                 dispatch(empActions.apply(userId, mortId));
             });
         }
+
+        this.setState({ validId: isUUID(mortId)});
     }
 
     render() {
         const ackVisibilityState = this.state.dispatchedForm ? "visible" : "hidden";
 
         const { user } = this.props;
-        const { name, salary, startDate, mortId, submittedForm } = this.state;
+        const { name, salary, startDate, mortId, submittedForm, validId } = this.state;
 
         return (
             <div>
@@ -95,8 +99,8 @@ class EMPHomePage extends React.Component {
                             <div className={'form-group' + (submittedForm && !mortId ? ' has-error' : '')}>
                                 <label htmlFor="mortId">Mortgage ID</label>
                                 <input type="text" className="form-control" name="mortId" value={mortId} onChange={this.handleChange} />
-                                {submittedForm && !mortId &&
-                                    <div className="help-block">Mortgage ID is required</div>
+                                {submittedForm && (!mortId || !validId) &&
+                                    <div className="help-block">Mortgage ID is required and must be a valid UUID.</div>
                                 }
                             </div>
                             <div className="form-group">

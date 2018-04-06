@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { isUUID } from 'validator';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Tabs, Tab, Alert } from 'react-bootstrap';
 
 import { userActions, mbrActions } from '../_actions';
@@ -19,7 +20,8 @@ class MBRHomePage extends React.Component {
             submittedForm: false,
             dispatchedForm: false,
             requestId: '',
-            submittedStatusRequest: false
+            submittedStatusRequest: false,
+            validId: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -34,17 +36,19 @@ class MBRHomePage extends React.Component {
 
     handleSubmitForm(e) {
         e.preventDefault();
-
         const { userId } = this.props;
 
         this.setState({ submittedForm: true });
         
-        const { name, mortgageVal, mortgageInsuranceId } = this.state;
-        const { dispatch } = this.props;
-        if (name && mortgageVal && mortgageInsuranceId) {
+        const { dispatch } = this.props;        
+        const { name, mortgageVal, mortgageInsuranceId, validId } = this.state;
+
+        if (name && mortgageVal && mortgageInsuranceId && isUUID(mortgageInsuranceId)) {
             this.setState({ dispatchedForm: true });
             dispatch(mbrActions.submit(userId, name, mortgageVal, mortgageInsuranceId));
         }
+
+        this.setState({ validId: isUUID(mortgageInsuranceId)});
     }
 
     handleGetStatus(e) {
@@ -67,7 +71,7 @@ class MBRHomePage extends React.Component {
         const { mbrName } = this.props;
         const { empStatus, insStatus, munStatus } = this.props;
         const { applicationId, applicationName, applicationInsId, applicationVal, empId, empStartDate, empSalary, servicesCode, insuredValue, deductible } = this.props;
-        const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedStatusRequest } = this.state;
+        const { name, mortgageVal, mortgageInsuranceId, submittedForm, requestId, submittedStatusRequest, validId } = this.state;
         
         if (empStatus === "CONFIRMED" && insStatus === "CONFIRMED" && munStatus === "CONFIRMED") {
             docVisibilityState = "visible";
@@ -91,7 +95,7 @@ class MBRHomePage extends React.Component {
                             </div>
                             <div className={'form-group' + (submittedForm && !mortgageVal ? ' has-error' : '')}>
                                 <label htmlFor="mortgageVal">Mortgage Value ($)</label>
-                                <input type="mortgageVal" className="form-control" name="mortgageVal" value={mortgageVal} onChange={this.handleChange} />
+                                <input type="number" className="form-control" name="mortgageVal" value={mortgageVal} onChange={this.handleChange} />
                                 {submittedForm && !mortgageVal &&
                                     <div className="help-block">Mortgage value is required</div>
                                 }
@@ -99,8 +103,8 @@ class MBRHomePage extends React.Component {
                             <div className={'form-group' + (submittedForm && !mortgageInsuranceId ? ' has-error' : '')}>
                                 <label htmlFor="mortgageInsuranceId">Mortgage Insurance ID</label>
                                 <input type="text" className="form-control" name="mortgageInsuranceId" value={mortgageInsuranceId} onChange={this.handleChange} />
-                                {submittedForm && !mortgageInsuranceId &&
-                                    <div className="help-block">Mortgage Insurance ID is required</div>
+                                {submittedForm && (!mortgageInsuranceId || !validId) &&
+                                    <div className="help-block">Mortgage Insurance ID is required and must be a valid UUID</div>
                                 }
                             </div>
                             <div className="form-group">
