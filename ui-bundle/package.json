@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "The UI components of multiple workflow services",
   "scripts": {
-    "start": "webpack-dev-server --port 3000 --open"
+    "start": "webpack-dev-server --port 3000 --open",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "brucem",
   "dependencies": {
