@@ -7,11 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.AbstractMap;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
-import javafx.util.Pair;
 
 @Service
 public class PasswordHashUtility {
@@ -26,14 +25,14 @@ public class PasswordHashUtility {
         secureRandom = new SecureRandom();
     }
 
-    public Pair<String, String> getHashedPasswordAndSalt(String password) {
+    public AbstractMap.SimpleEntry<String, String> getHashedPasswordAndSalt(String password) {
         byte[] salt = new byte[16];
         secureRandom.nextBytes(salt);
 
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
 
         try {
-            return new Pair<>(
+            return new AbstractMap.SimpleEntry<>(
                     Base64.encodeBase64String(salt),
                     Base64.encodeBase64String(keyFactory.generateSecret(spec).getEncoded()));
         } catch (InvalidKeySpecException e) {

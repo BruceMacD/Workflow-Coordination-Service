@@ -7,9 +7,9 @@ import com.cc.workflow.data.re.Appraisal;
 import com.cc.workflow.data.re.REUser;
 import com.cc.workflow.data.re.ReDAO;
 import com.cc.workflow.data.User;
-import javafx.util.Pair;
 import com.cc.workflow.security.PasswordHashUtility;
 
+import java.util.AbstractMap;
 import java.util.Random;
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class ReService {
 
     public REUser createUser(REUser user) {
         user.setId(UUID.randomUUID().toString());
-        Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
+        AbstractMap.SimpleEntry<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());
         user.setSalt(saltAndHashedPassword.getKey());
 

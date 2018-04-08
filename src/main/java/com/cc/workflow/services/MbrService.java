@@ -9,7 +9,6 @@ import com.cc.workflow.data.mbr.MbrUser;
 import com.cc.workflow.data.mbr.MortgageApplication;
 import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.User;
-import javafx.util.Pair;
 
 import com.cc.workflow.data.mun.MUNServices;
 import com.cc.workflow.exceptions.AlreadyApplied;
@@ -17,6 +16,7 @@ import com.cc.workflow.exceptions.InvalidMortgageApplication;
 import com.cc.workflow.exceptions.UserNotFound;
 import com.cc.workflow.security.PasswordHashUtility;
 
+import java.util.AbstractMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class MbrService {
 
     public MbrUser createUser(MbrUser user) {
         user.setId(UUID.randomUUID().toString());
-        Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
+        AbstractMap.SimpleEntry<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());
         user.setSalt(saltAndHashedPassword.getKey());
 

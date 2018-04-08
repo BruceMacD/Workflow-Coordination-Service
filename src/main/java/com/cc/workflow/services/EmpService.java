@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.workflow.data.User;
-import javafx.util.Pair;
 
 import com.cc.workflow.data.emp.EmpDAO;
 import com.cc.workflow.data.emp.EmpUser;
@@ -12,6 +11,7 @@ import com.cc.workflow.exceptions.AlreadyApplied;
 import com.cc.workflow.exceptions.InvalidEmpUser;
 import com.cc.workflow.security.PasswordHashUtility;
 
+import java.util.AbstractMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,7 +33,7 @@ public class EmpService {
         // Had to remove this validation as a user object wont have all the fields needed for validating
         // validateUser(user);
         user.setId(UUID.randomUUID().toString());
-        Pair<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
+        AbstractMap.SimpleEntry<String, String> saltAndHashedPassword = pwUtils.getHashedPasswordAndSalt(user.getPassword());
         user.setPassword(saltAndHashedPassword.getValue());
         user.setSalt(saltAndHashedPassword.getKey());
 
