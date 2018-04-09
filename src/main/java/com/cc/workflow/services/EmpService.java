@@ -24,6 +24,9 @@ public class EmpService {
     @Autowired
     PasswordHashUtility pwUtils;
 
+    @Autowired
+    WorkflowService workflowService;
+
     public boolean authenticate(String id, String password) {
         User user = getUser(id);
         return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
@@ -64,7 +67,7 @@ public class EmpService {
         if (user.isApplied()) {
             throw new AlreadyApplied();
         }
-        // TODO: CONNECT TO OTHER SERVICE HERE USING mortgageId
+        workflowService.triggerEmployee(mortgageId);
         user.setApplied(true);
         empDAO.updateUser(id, user);
         return user;
