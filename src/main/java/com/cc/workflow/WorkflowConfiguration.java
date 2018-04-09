@@ -11,6 +11,7 @@ import com.cc.workflow.data.re.ReInMem;
 import com.cc.workflow.data.trace.TraceDAO;
 import com.cc.workflow.data.trace.TraceInMem;
 
+import com.cc.workflow.services.WorkflowService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,5 +73,10 @@ public class WorkflowConfiguration {
         }
         // TODO: Create SQL implementation
         return new TraceInMem();
+    }
+
+    @Bean
+    public WorkflowService getWorkflowService() {
+        return new WorkflowService();
     }
 }

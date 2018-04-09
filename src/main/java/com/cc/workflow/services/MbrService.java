@@ -29,6 +29,9 @@ public class MbrService {
     @Autowired
     PasswordHashUtility pwUtils;
 
+    @Autowired
+    WorkflowService workflowService;
+
     public boolean authenticate(String id, String password) {
         User user = getUser(id);
         return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
@@ -61,6 +64,9 @@ public class MbrService {
         }
         user.setApplication(application);
         mbrDAO.updateUser(user);
+
+        workflowService.triggerWorkflow(user);
+
         return user;
     }
 
