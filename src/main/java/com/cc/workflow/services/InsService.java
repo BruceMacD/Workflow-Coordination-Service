@@ -30,10 +30,6 @@ public class InsService {
 
         insDAO.updateQuote(quote);
 
-        if (quote.receivedRe) {
-            // POST TO MBR
-        }
-
         return quote;
     }
 
@@ -51,10 +47,6 @@ public class InsService {
         quote.receivedRe = true;
 
         insDAO.updateQuote(quote);
-
-        if (quote.receivedMun) {
-            // POST TO MBR
-        }
 
         return quote;
     }

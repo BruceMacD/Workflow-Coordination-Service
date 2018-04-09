@@ -2,6 +2,7 @@ package com.cc.workflow;
 
 import com.cc.workflow.data.emp.EmpDAO;
 import com.cc.workflow.data.emp.EmpInMem;
+import com.cc.workflow.data.emp.EmpSQL;
 import com.cc.workflow.data.ins.InsDAO;
 import com.cc.workflow.data.ins.InsInMem;
 import com.cc.workflow.data.mbr.MbrDAO;
@@ -36,7 +37,7 @@ public class WorkflowConfiguration {
 //            return new EmpInMem();
 //        }
         // TODO: Create SQL implementation
-        return new EmpInMem();
+        return new EmpSQL();
     }
 
     @Bean
