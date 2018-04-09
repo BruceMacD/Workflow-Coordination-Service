@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-// TODO: Subclass user
 public class User implements Serializable {
     @NotNull
     private String id;
