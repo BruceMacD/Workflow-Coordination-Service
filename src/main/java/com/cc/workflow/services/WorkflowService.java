@@ -65,4 +65,27 @@ public class WorkflowService {
   public boolean employerCallbacksContains(String id) {
     return employerWorkflows.containsKey(id);
   }
+
+  public void triggerRealEstate(String mortgageId) {
+
+    if (reWorkflows.containsKey(mortgageId)) {
+      String url = reWorkflows.get(mortgageId).toString();
+
+      HttpClient httpClient    = HttpClientBuilder.create().build();
+      HttpPost     post          = new HttpPost(url);
+      try {
+        httpClient.execute(post);
+      } catch (Exception e) {
+        // log exception
+      }
+    }
+  }
+
+  public void addRealEstateCallback(String id, String url) {
+    reWorkflows.put(id, url);
+  }
+
+  public boolean realEstateCallbacksContains(String id) {
+    return reWorkflows.containsKey(id);
+  }
 }

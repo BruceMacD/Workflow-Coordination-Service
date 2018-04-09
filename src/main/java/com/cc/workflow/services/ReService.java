@@ -22,6 +22,9 @@ public class ReService {
     @Autowired
     PasswordHashUtility pwUtils;
 
+    @Autowired
+    WorkflowService workflowService;
+
     public boolean authenticate(String id, String password) {
         User user = getUser(id);
         return null != user && pwUtils.passwordIsValid(password, user.getSalt(), user.getPassword());
@@ -41,16 +44,22 @@ public class ReService {
         return reDAO.getUser(id);
     }
 
+    public REUser getUserByMortgageId(String mortgageId) {
+        return reDAO.getUserByMortgageId(mortgageId);
+    }
+
+
     public void deleteUser(String id) {
         reDAO.deleteUser(id);
     }
 
     public Appraisal appraise(String id, Appraisal appraisal) {
         appraisal.value = (new Random().nextInt(100) + 1) * 10000;
-        // TODO: CALL INS & MUN HERE
-         REUser user = reDAO.getUser(id);
-         user.setAppraisal(appraisal);
-         reDAO.updateUser(user);
+        REUser user = reDAO.getUser(id);
+        user.setAppraisal(appraisal);
+        reDAO.updateUser(user);
+
+        workflowService.triggerRealEstate(appraisal.mortgageId);
         return appraisal;
     }
 }
