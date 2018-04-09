@@ -87,7 +87,7 @@ public class EmpController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("location", AWS + "/emp/timeout/" + mortgageId);
         responseHeaders.set("retry-after", "60");
-        return new ResponseEntity<String>("", responseHeaders, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("", responseHeaders, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(
