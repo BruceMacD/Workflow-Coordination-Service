@@ -7,6 +7,7 @@ public class EmpUser extends User {
     private int salary;
     private String employmentStartDate;
     private boolean applied;
+    private String mortgageId;
 
     public EmpUser(User user) {
         super(user);
@@ -49,5 +50,13 @@ public class EmpUser extends User {
 
     public void setApplied(boolean applied) {
         this.applied = applied;
+    }
+
+    public String getMortgageId() {
+        return mortgageId;
+    }
+
+    public void setMortgageId(String mortgageId) {
+        this.mortgageId = mortgageId;
     }
 }

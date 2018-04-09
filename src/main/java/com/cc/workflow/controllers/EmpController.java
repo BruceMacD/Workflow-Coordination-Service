@@ -36,6 +36,17 @@ public class EmpController {
     }
 
     @RequestMapping(
+            value = "mortgage/{mortgageId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public EmpUser getUserByMortgageId(@PathVariable String mortgageId) {
+        return empService.getUserByMortgageId(mortgageId);
+    }
+
+    @RequestMapping(
         value = "/{id}",
         method = RequestMethod.PATCH,
         consumes = MediaType.APPLICATION_JSON_VALUE
@@ -86,7 +97,7 @@ public class EmpController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseEntity<String> timeoutWebhook(@PathVariable String mortgageId) {
-        if (workflowService.employerCallbacksContains(mortgageId)) {
+        if (!workflowService.employerCallbacksContains(mortgageId)) {
             return new ResponseEntity<String>("", HttpStatus.CREATED);
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();

@@ -3,6 +3,7 @@ package com.cc.workflow.data.emp;
 import com.cc.workflow.exceptions.UserNotFound;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class EmpInMem implements EmpDAO {
     private static HashMap<String, EmpUser> db = new HashMap<>();
@@ -16,6 +17,19 @@ public class EmpInMem implements EmpDAO {
     @Override
     public EmpUser getUser(String id) {
         EmpUser user = db.get(id);
+        if (user == null) {
+            throw new UserNotFound();
+        }
+        return user;
+    }
+
+    @Override
+    public EmpUser getUserByMortgageId(String mortgageId) {
+        EmpUser user = null;
+        for (Map.Entry<String, EmpUser> pair: db.entrySet()) {
+            if(pair.getValue().getMortgageId().equals(mortgageId))
+                user = pair.getValue();
+        }
         if (user == null) {
             throw new UserNotFound();
         }

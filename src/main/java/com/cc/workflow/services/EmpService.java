@@ -48,6 +48,10 @@ public class EmpService {
         return empDAO.getUser(id);
     }
 
+    public EmpUser getUserByMortgageId(String mortgageId) {
+        return empDAO.getUserByMortgageId(mortgageId);
+    }
+
     public EmpUser modify(String id, EmpUser user) {
         EmpUser patchedUser = getUser(id);
         patchedUser.setName(user.getName());
@@ -67,6 +71,9 @@ public class EmpService {
         if (user.isApplied()) {
             throw new AlreadyApplied();
         }
+        // workaround for setting mortgageId
+        user.setMortgageId(mortgageId);
+        modify(user.getId(), user);
         workflowService.triggerEmployee(mortgageId);
         user.setApplied(true);
         empDAO.updateUser(id, user);

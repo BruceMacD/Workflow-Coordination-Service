@@ -47,6 +47,14 @@ public class EmpSQL implements EmpDAO {
     }
 
     @Override
+    public EmpUser getUserByMortgageId(String mortgageId) {
+        //TODO
+        // just to stub return
+        return getUser(mortgageId);
+    }
+
+
+    @Override
     public void deleteUser(String id) {
         try {
             Class.forName("com.mysql.jdbc.Driver");

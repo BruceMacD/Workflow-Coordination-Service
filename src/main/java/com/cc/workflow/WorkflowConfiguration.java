@@ -32,9 +32,9 @@ public class WorkflowConfiguration {
 
     @Bean
     public EmpDAO getEmpDAO() {
-        if (dbInMem) {
-            return new EmpInMem();
-        }
+//        //if (dbInMem) {
+//            return new EmpInMem();
+//        }
         // TODO: Create SQL implementation
         return new EmpInMem();
     }
