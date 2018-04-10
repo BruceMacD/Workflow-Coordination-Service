@@ -11,6 +11,10 @@ public class MbrUser extends User {
     private MUNServices munInfo;
     private InsuranceQuote insInfo;
 
+    public MbrUser() {
+
+    }
+
     public MbrUser(User user) {
         super(user);
     }

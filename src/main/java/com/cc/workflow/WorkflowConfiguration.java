@@ -8,6 +8,7 @@ import com.cc.workflow.data.ins.InsInMem;
 import com.cc.workflow.data.ins.InsSQL;
 import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.mbr.MbrInMem;
+import com.cc.workflow.data.mbr.MbrSQL;
 import com.cc.workflow.data.re.ReDAO;
 import com.cc.workflow.data.re.ReInMem;
 import com.cc.workflow.data.re.ReSQL;
@@ -54,8 +55,7 @@ public class WorkflowConfiguration {
         if (dbInMem) {
             return new MbrInMem();
         }
-        // TODO: Create SQL implementation
-        return new MbrInMem();
+        return new MbrSQL();
     }
 
     @Bean
