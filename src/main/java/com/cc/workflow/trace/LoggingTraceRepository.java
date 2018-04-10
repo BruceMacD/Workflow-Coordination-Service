@@ -12,7 +12,6 @@ import java.util.List;
 
 @Component
 public class LoggingTraceRepository implements HttpTraceRepository {
-    private static ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private TraceDAO traceDAO;
