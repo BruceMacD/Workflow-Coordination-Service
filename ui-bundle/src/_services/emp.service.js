@@ -8,6 +8,7 @@ export const empService = {
 };
 
 function patch(id, name, salary, employmentStartDate) {
+	salary = parseInt(salary);
 
     // if submitted assume has not yet applied
     const applied = false;
