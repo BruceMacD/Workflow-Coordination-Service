@@ -101,20 +101,38 @@ public class MbrSQL implements MbrDAO {
     @Override
     public MbrUser updateUser(MbrUser user) {
         try {
+            MbrUser existing = getUser(user.getId());
+            if (user.getApplication() == null) {
+                user.setApplication(existing.getApplication());
+            }
+            if (user.getEmpInfo() == null) {
+                user.setEmpInfo(existing.getEmpInfo());
+            }
+            if (user.getInsInfo() == null) {
+                user.setInsInfo(existing.getInsInfo());
+            }
+            if (user.getMunInfo() == null) {
+                user.setMunInfo(existing.getMunInfo());
+            }
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB);
             PreparedStatement update = conn.prepareStatement(UPDATE_USER);
             ObjectMapper mapper = new ObjectMapper();
-            update.setString(1, mapper.writeValueAsString(user.getApplication()));
-            update.setString(2, mapper.writeValueAsString(user.getEmpInfo()));
-            update.setString(3, mapper.writeValueAsString(user.getMunInfo()));
-            update.setString(4, mapper.writeValueAsString(user.getInsInfo()));
+            String application = mapper.writeValueAsString(user.getApplication());
+            String empInfo = mapper.writeValueAsString(user.getEmpInfo());
+            String munInfo = mapper.writeValueAsString(user.getMunInfo());
+            String insInfo = mapper.writeValueAsString(user.getInsInfo());
+            update.setString(1, application);
+            update.setString(2, empInfo);
+            update.setString(3, munInfo);
+            update.setString(4, insInfo);
             update.setString(5, user.getId());
             if (user.getApplication() != null) {
                 update.setString(6, user.getApplication().mortgageId);
             } else {
                 update.setString(6, "");
             }
+            update.executeUpdate();
             update.close();
             conn.close();
         } catch (SQLException | ClassNotFoundException | JsonProcessingException e) {
