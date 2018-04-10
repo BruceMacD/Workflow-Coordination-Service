@@ -14,10 +14,11 @@ import java.sql.Statement;
 
 public class ReSQL implements ReDAO {
     private static String DB = "jdbc:mysql://csci4145final.cmeyxcfzcxwq.us-east-1.rds.amazonaws.com:3306/csci4145final?user=csci4145&password=csci4145";
-    private static String CREATE_USER = "INSERT INTO `csci4145final`.`re` (`id`, `password`, `salt`, `appraisal`) VALUES (?, ?, ?, ?);";
+    private static String CREATE_USER = "INSERT INTO `csci4145final`.`re` (`id`, `password`, `salt`, `appraisal`, `mortgageId`) VALUES (?, ?, ?, ?, ?);";
     private  static String GET_USER = "SELECT * FROM `csci4145final`.`re` WHERE id='%s';";
+    private static String GET_USER_BY_MBID = "SELECT * FROM `csci4145final`.`re` WHERE mortgageId='%s';";
     private static String DELETE_USER = "DELETE FROM `csci4145final`.`re` WHERE id='%s';";
-    private static String UPDATE_USER = "UPDATE `csci4145final`.`re` SET `appraisal`= ? WHERE `id`= ?;";
+    private static String UPDATE_USER = "UPDATE `csci4145final`.`re` SET `appraisal`= ?, `mortgageId`= ? WHERE `id`= ?;";
 
     @Override
     public REUser createUser(REUser user) {
@@ -29,6 +30,7 @@ public class ReSQL implements ReDAO {
             create.setString(2, user.getPassword());
             create.setString(3, user.getSalt());
             create.setString(4, new ObjectMapper().writeValueAsString(user.getAppraisal()));
+            create.setString(5, null);
             create.executeUpdate();
             create.close();
             conn.close();
@@ -58,9 +60,20 @@ public class ReSQL implements ReDAO {
 
     @Override
     public REUser getUserByMortgageId(String mortgageId) {
-        //TODO
-        // just to stub return
-        return getUser(mortgageId);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB);
+            Statement get  = conn.createStatement();
+            ResultSet result = get.executeQuery(String.format(GET_USER_BY_MBID, mortgageId));
+            result.first();
+            REUser user =  convertFromDb(result);
+            result.close();
+            get.close();
+            conn.close();
+            return user;
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            throw new RuntimeException("Error connecting to db.", e);
+        }
     }
 
 
@@ -85,7 +98,8 @@ public class ReSQL implements ReDAO {
             Connection conn = DriverManager.getConnection(DB);
             PreparedStatement update = conn.prepareStatement(UPDATE_USER);
             update.setString(1, new ObjectMapper().writeValueAsString(user.getAppraisal()));
-            update.setString(2, user.getId());
+            update.setString(2, user.getAppraisal().mortgageId);
+            update.setString(3, user.getId());
             update.executeUpdate();
             update.close();
             conn.close();
@@ -109,6 +123,7 @@ public class ReSQL implements ReDAO {
         user.setId(id);
         user.setPassword(password);
         user.setSalt(salt);
+        user.setAppraisal(appraisal);
         return user;
     }
 }
