@@ -2,6 +2,7 @@ package com.cc.workflow.data.emp;
 
 import com.cc.workflow.exceptions.UserNotFound;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ public class EmpSQL implements EmpDAO {
     private static String DB = "jdbc:mysql://csci4145final.cmeyxcfzcxwq.us-east-1.rds.amazonaws.com:3306/csci4145final?user=csci4145&password=csci4145";
     private static String CREATE_USER = "INSERT INTO `csci4145final`.`emp` (`id`, `password`, `salt`, `name`, `salary`, `employmentStartDate`, `applied`, `mortgageId`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');";
     private  static String GET_USER = "SELECT * FROM `csci4145final`.`emp` WHERE id='%s';";
+    private static String GET_USER_BY_MBID = "SELECT * FROM `csci4145final`.`emp` WHERE mortgageId='%s';";
     private static String DELETE_USER = "DELETE FROM `csci4145final`.`emp` WHERE id='%s';";
     private static String UPDATE_USER = "UPDATE `csci4145final`.`emp` SET `name`='%s', `salary`='%s', `employmentStartDate`='%s', `applied`='%s', `mortgageId`='%s' WHERE `id`='%s';";
 
@@ -51,9 +53,20 @@ public class EmpSQL implements EmpDAO {
 
     @Override
     public EmpUser getUserByMortgageId(String mortgageId) {
-        //TODO
-        // just to stub return
-        return getUser(mortgageId);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB);
+            Statement get  = conn.createStatement();
+            ResultSet result = get.executeQuery(String.format(GET_USER_BY_MBID, mortgageId));
+            result.first();
+            EmpUser user =  convertFromDb(result);
+            result.close();
+            get.close();
+            conn.close();
+            return user;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Error connecting to db.", e);
+        }
     }
 
 
