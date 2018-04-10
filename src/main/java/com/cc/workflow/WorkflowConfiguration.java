@@ -10,6 +10,7 @@ import com.cc.workflow.data.mbr.MbrDAO;
 import com.cc.workflow.data.mbr.MbrInMem;
 import com.cc.workflow.data.re.ReDAO;
 import com.cc.workflow.data.re.ReInMem;
+import com.cc.workflow.data.re.ReSQL;
 import com.cc.workflow.data.trace.TraceDAO;
 import com.cc.workflow.data.trace.TraceInMem;
 
@@ -62,8 +63,7 @@ public class WorkflowConfiguration {
         if (dbInMem) {
             return new ReInMem();
         }
-        // TODO: Create SQL implementation
-        return new ReInMem();
+        return new ReSQL();
     }
 
     @Bean

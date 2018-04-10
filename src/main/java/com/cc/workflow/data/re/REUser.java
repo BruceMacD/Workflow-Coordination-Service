@@ -5,6 +5,10 @@ import com.cc.workflow.data.User;
 public class REUser extends User {
     private Appraisal appraisal;
 
+    public REUser() {
+
+    }
+
     public REUser(User user) {
         super(user);
     }
