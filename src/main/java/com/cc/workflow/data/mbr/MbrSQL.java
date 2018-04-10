@@ -17,10 +17,10 @@ import java.sql.Statement;
 
 public class MbrSQL implements MbrDAO {
     private static String DB = "jdbc:mysql://csci4145final.cmeyxcfzcxwq.us-east-1.rds.amazonaws.com:3306/csci4145final?user=csci4145&password=csci4145";
-    private static String CREATE_USER = "INSERT INTO `csci4145final`.`mbr` (`id`, `password`, `salt`, `application`, `empInfo`, `munInfo`, `insInfo`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s');";
+    private static String CREATE_USER = "INSERT INTO `csci4145final`.`mbr` (`id`, `password`, `salt`, `application`, `empInfo`, `munInfo`, `insInfo`) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private  static String GET_USER = "SELECT * FROM `csci4145final`.`mbr` WHERE id='%s';";
     private static String DELETE_USER = "DELETE FROM `csci4145final`.`mbr` WHERE id='%s';";
-    private static String UPDATE_USER = "UPDATE `csci4145final`.`mbr` SET `application`='%s', `empInfo`='%s', `munInfo`='%s', `insInfo`='%s' WHERE `id`='%s';";
+    private static String UPDATE_USER = "UPDATE `csci4145final`.`mbr` SET `application`=?, `empInfo`=?, `munInfo`=?, `insInfo`=? WHERE `id`=?;";
 
     @Override
     public MbrUser createUser(MbrUser user) {
