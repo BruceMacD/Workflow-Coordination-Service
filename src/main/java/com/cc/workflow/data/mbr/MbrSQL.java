@@ -17,10 +17,11 @@ import java.sql.Statement;
 
 public class MbrSQL implements MbrDAO {
     private static String DB = "jdbc:mysql://csci4145final.cmeyxcfzcxwq.us-east-1.rds.amazonaws.com:3306/csci4145final?user=csci4145&password=csci4145";
-    private static String CREATE_USER = "INSERT INTO `csci4145final`.`mbr` (`id`, `password`, `salt`, `application`, `empInfo`, `munInfo`, `insInfo`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static String CREATE_USER = "INSERT INTO `csci4145final`.`mbr` (`id`, `password`, `salt`, `application`, `empInfo`, `munInfo`, `insInfo`, `mortgageId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private  static String GET_USER = "SELECT * FROM `csci4145final`.`mbr` WHERE id='%s';";
+    private static String GET_USER_BY_MBID = "SELECT * FROM `csci4145final`.`mbr` WHERE mortgageId='%s';";
     private static String DELETE_USER = "DELETE FROM `csci4145final`.`mbr` WHERE id='%s';";
-    private static String UPDATE_USER = "UPDATE `csci4145final`.`mbr` SET `application`=?, `empInfo`=?, `munInfo`=?, `insInfo`=? WHERE `id`=?;";
+    private static String UPDATE_USER = "UPDATE `csci4145final`.`mbr` SET `application`=?, `empInfo`=?, `munInfo`=?, `insInfo`=?, `mortgageId`=? WHERE `id`=?;";
 
     @Override
     public MbrUser createUser(MbrUser user) {
@@ -36,6 +37,7 @@ public class MbrSQL implements MbrDAO {
             create.setString(5, mapper.writeValueAsString(user.getEmpInfo()));
             create.setString(6, mapper.writeValueAsString(user.getMunInfo()));
             create.setString(7, mapper.writeValueAsString(user.getInsInfo()));
+            create.setString(8, "");
             create.executeUpdate();
             create.close();
             conn.close();
@@ -65,9 +67,20 @@ public class MbrSQL implements MbrDAO {
 
     @Override
     public MbrUser getUserByMortgageId(String mortgageId) {
-        //TODO
-        // just to stub return
-        return getUser(mortgageId);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB);
+            Statement get  = conn.createStatement();
+            ResultSet result = get.executeQuery(String.format(GET_USER_BY_MBID, mortgageId));
+            result.first();
+            MbrUser user =  convertFromDb(result);
+            result.close();
+            get.close();
+            conn.close();
+            return user;
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Error connecting to db.", e);
+        }
     }
 
 
@@ -97,6 +110,11 @@ public class MbrSQL implements MbrDAO {
             update.setString(3, mapper.writeValueAsString(user.getMunInfo()));
             update.setString(4, mapper.writeValueAsString(user.getInsInfo()));
             update.setString(5, user.getId());
+            if (user.getApplication() != null) {
+                update.setString(6, user.getApplication().mortgageId);
+            } else {
+                update.setString(6, "");
+            }
             update.close();
             conn.close();
         } catch (SQLException | ClassNotFoundException | JsonProcessingException e) {
