@@ -9,6 +9,10 @@ public class EmpUser extends User {
     private boolean applied;
     private String mortgageId;
 
+    public EmpUser() {
+        
+    }
+
     public EmpUser(User user) {
         super(user);
     }

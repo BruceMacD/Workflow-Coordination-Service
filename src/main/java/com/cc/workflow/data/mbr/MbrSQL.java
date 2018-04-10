@@ -122,16 +122,18 @@ public class MbrSQL implements MbrDAO {
             String empInfo = mapper.writeValueAsString(user.getEmpInfo());
             String munInfo = mapper.writeValueAsString(user.getMunInfo());
             String insInfo = mapper.writeValueAsString(user.getInsInfo());
+            String mortageId;
+            if (user.getApplication() != null) {
+                mortageId = user.getApplication().mortgageId;
+            } else {
+                mortageId = null;
+            }
             update.setString(1, application);
             update.setString(2, empInfo);
             update.setString(3, munInfo);
             update.setString(4, insInfo);
-            update.setString(5, user.getId());
-            if (user.getApplication() != null) {
-                update.setString(6, user.getApplication().mortgageId);
-            } else {
-                update.setString(6, "");
-            }
+            update.setString(5, mortageId);
+            update.setString(6, user.getId());
             update.executeUpdate();
             update.close();
             conn.close();
