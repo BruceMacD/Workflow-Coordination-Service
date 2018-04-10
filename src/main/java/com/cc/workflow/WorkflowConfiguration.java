@@ -13,7 +13,6 @@ import com.cc.workflow.data.re.ReInMem;
 import com.cc.workflow.data.trace.TraceDAO;
 import com.cc.workflow.data.trace.TraceInMem;
 
-import com.cc.workflow.data.trace.TraceSQL;
 import com.cc.workflow.services.WorkflowService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
